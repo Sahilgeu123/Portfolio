@@ -33,7 +33,7 @@ function Contact() {
   useScrollAnimation();
 
   return (
-    <section id="contact" className="scroll-hidden min-h-screen pt-30 ">
+    <section id="contact" className="scroll-hidden min-h-screen pt-45 ">
       <div className="text-center">
         <h2 className="text-5xl font-bold">Get in Touch</h2>
         <p className="mt-4 text-xl font-medium text-[#dcd3f1]">
