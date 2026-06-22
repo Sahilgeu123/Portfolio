@@ -1,4 +1,4 @@
-import React from "react";
+
 import "./home.css";
 import "./global.css"
 import { scroller } from "react-scroll";
