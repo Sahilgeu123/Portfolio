@@ -12,7 +12,7 @@ const Navbar = () => {
       className={`fixed top-0 left-0 w-full backdrop-blur-2xl z-50 shadow-md transition-colors duration-500 `}
     >
       {/* Top Navbar */}
-      <div className="w-full flex justify-between items-center px-6 py-4 border-b-2">
+      <div className=" w-full flex justify-between items-center px-6 py-4 border-b-2">
         <Link
           to="home"
           smooth

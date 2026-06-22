@@ -48,7 +48,7 @@
     transition: transform 0.3s ease-in-out;
 }
 
-@media (max-width: 639px) {
+@media (max-width: 649px) {
 
     .main{
         margin-left: 35px;

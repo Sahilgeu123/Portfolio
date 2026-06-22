@@ -35,9 +35,10 @@ const Home = () => {
   return (
     <section
       id="home"
-      className="scroll-hidden box min-h-screen flex flex-col items-center justify-center text-center w-full "
+      className="scroll-hidden box min-h-screen  w-full "
     >
-      <p className="name text-7xl mb-5 mt-35 font-semibold text-[#ece6f9]">Hi, I'm Sahil Alam</p>
+  <div className=" min-h-screen  w-full flex flex-col items-center justify-center text-center">
+        <p className="name text-7xl mb-5 mt-35 font-semibold text-[#ece6f9]">Hi, I'm Sahil Alam</p>
 
       <p className="p2 text-2xl ani4 font-bold text-[#dacef8]">Web Developer</p>
       <p className="ani4 quote text-2xl mt-10 italic text-[#ece6f9] font-semibold">
@@ -96,6 +97,7 @@ const Home = () => {
           onClick={handleImageClick}
         ></img>
       </div>
+  </div>
     </section>
   );
 };
