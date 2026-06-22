@@ -1,0 +1,15 @@
+@media(max-width:845px){
+    .mainpath{
+        width:fit-content;
+    }
+  
+}
+.mainpath{
+    
+ background: linear-gradient(
+    45deg,           /* direction or angle */
+    #19102e 0%,      /* start color + position */
+    #8f87a3 50%,     /* middle color + position */
+    #19102e 100%     /* end color + position */);
+    color: white;
+}

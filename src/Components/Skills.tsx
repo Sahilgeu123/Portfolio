@@ -7,7 +7,7 @@ function Skills() {
   return (
     <section
       id="skills"
-      className="scroll-hidden main min-h-screen flex flex-col  mt-30 mb-30 sm:pl-10"
+      className="scroll-hidden main min-h-screen flex flex-col   sm:pl-10"
     >
       <div className="">
         <div className="mt-35 sm:mr-10">

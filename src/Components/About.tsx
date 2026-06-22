@@ -7,7 +7,7 @@ function About() {
   return (
     <section
       id="about"
-      className="scroll-hidden min-h-screen w-full  lg:flex-col flex flex-row justify-between items-center pl-10 nope "
+      className="scroll-hidden pt-30 min-h-screen w-full  lg:flex-col flex flex-row justify-between items-center pl-10 nope "
     >
       <div className="about flex sm:flex-col lg:flex-row ">
         <div className="leftside lg:pt-10 ">

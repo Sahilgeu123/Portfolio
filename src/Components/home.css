@@ -1,18 +1,8 @@
-/* Base styles */
-.box {
-  width: 100vw;   /* full viewport width */
-  height: 100vh;  /* full viewport height */
-  margin: 0;
-  padding: 0;
-}
+
 
 /* Mobile overrides */
 @media (max-width: 639px) {
-  .box {
-    width: 100vw;
-    padding-left: 10px;
-    margin-top: 0;
-  }
+
   .name {
     font-size: 50px;
     margin-bottom: 3px;

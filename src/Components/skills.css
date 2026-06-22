@@ -1,5 +1,5 @@
 .main{
-    margin-top: 60px;
+    margin-top: -90px;
 }
 
 .heading{
@@ -60,4 +60,11 @@
     }
     
   
+}
+
+@media (min-width:1760px) {
+    .main{
+    margin-left: 150px;
+    margin-right: 150px;
+    }
 }
