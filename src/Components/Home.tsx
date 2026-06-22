@@ -35,7 +35,7 @@ const Home = () => {
   return (
     <section
       id="home"
-      className="scroll-hidden flex flex-col items-center justify-center text-center  "
+      className="scroll-hidden flex flex-col items-center justify-center text-center pt-10 "
     >
       <p className="name text-7xl mb-5 mt-35 font-semibold text-[#ece6f9]">Hi, I'm Sahil Alam</p>
 

@@ -2,6 +2,9 @@
 
 /* Mobile overrides */
 @media (max-width: 639px) {
+  #home{
+    padding-top: 50px;
+  }
 
   .name {
     font-size: 50px;
