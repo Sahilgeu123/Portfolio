@@ -1,0 +1,44 @@
+.navscroll{
+      
+ background: linear-gradient(
+    45deg,           /* direction or angle */
+    #8f87a3 50%,     /* middle color + position */
+    #1c142f 100%     /* end color + position */);
+}
+
+.link {
+  overflow: hidden; /* hides overflow if needed */
+  transition: all 0.2s ease-in-out; /* smooth animation */
+  opacity: 0.6;
+}
+
+.link:hover {
+  border-bottom: 3px solid white; /* underline appears on hover */
+  margin-top: 3px; /* slightly increase font size on hover */
+  opacity: 1;
+
+}
+
+.link2{
+  overflow: hidden; /* hides overflow if needed */
+  transition: all 0.3s ease-in-out; /* smooth animation */
+  
+}
+
+.link2:hover{
+  margin-left: 5px;
+  font-size:1.37rem;
+}
+
+.toggle-btn {
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  font-size: x-large;
+  border: none;
+  transition: transform 0.3s ease;
+}
+.toggle-btn:hover {
+  transform: scale(1.1);
+}
