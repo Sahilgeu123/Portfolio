@@ -8,6 +8,7 @@ export type ProjectProps = {
   para: string;
   lang?: string[];
   libraries?: string[];
+  link?: string;
 };
 
 const ProjectCardComponent = ProjectCard as ComponentType<ProjectProps>;
@@ -21,22 +22,41 @@ function Project() {
       description: "A Social Media Platform",
       para: "LinkUp is a social media platform that connects people from around the world. It allows users to share their thoughts, photos, and videos with friends and followers. With a user-friendly interface and powerful features, LinkUp is the perfect place to stay connected and share your life with others.",
       lang: ["JavaScript"],
-      libraries: ["React", "Tailwind CSS"],
+      libraries: ["React", "Tailwind CSS", "TypeScript", "Firebase"],
+      link:"https://linkup-social-media-app-vmgh.vercel.app/"
     },
     {
       title: "ShopEase",
       description: "A fully functional e-commerce website",
-      para:"ShopEase is a fully responsive e‑commerce platform built to deliver a smooth shopping experience, featuring product listings, secure checkout, user authentication, and an intuitive interface. The site integrates modern design with fast performance, ensuring customers can browse, add to cart, and purchase seamlessly across devices.",
-      lang: ["Python"],
-      libraries: ["Django", "PostgreSQL"],
+      para: "ShopEase is a fully responsive e‑commerce platform built to deliver a smooth shopping experience, featuring product listings, secure checkout, user authentication, and an intuitive interface. The site integrates modern design with fast performance, ensuring customers can browse, add to cart, and purchase seamlessly across devices.",
+      lang: ["JavaScript"],
+      libraries: ["React", "Node.js", "Express", "MongoDB","REST API",],
+      link:""
     },
     {
-      title: "NeuroScan AI",
-      description: "A multiple-model platform",
-      para: "Our platform is a unified hub for AI‑powered medical image analysis, offering multiple specialized models under one interface. Users can upload scans or images and select from a range of diagnostic tools — such as brain tumor detection, skin cancer classification, and other predictive models — to receive fast, reliable insights.",
-      lang: ["Java"],
-      libraries: ["Spring Boot", "MySQL"],
+      title: "Brain Tumor Detection",
+      description: "AI-powered brain tumor detection platform",
+      para: "Brain Tumor Detection is an AI-powered medical imaging application that analyzes brain MRI scans using a Convolutional Neural Network (CNN) to detect the presence of tumors. Users can upload MRI images through a simple interface and receive quick, accurate predictions, helping support early diagnosis and improving the efficiency of medical image analysis.",
+      lang: ["Python"],
+      libraries: ["TensorFlow", "Keras", "OpenCV", "NumPy", "Pandas"],
     },
+    {
+      title: "Apple 3D Website Clone",
+      description: "A modern 3D Apple website clone",
+      para: "A modern 3D Apple website clone featuring interactive animations, immersive 3D visuals, and responsive design built with React, Three.js, React Three Fiber, and GSAP.",
+      lang: ["JavaScript"],
+      libraries: ["React", "Three.js", "React Three Fiber", "GSAP"],
+      link:"https://apple-clone-website-kappa.vercel.app/"
+    },
+    {
+      title: "Booked Confirmed Page",
+      description: "A Junior level confirmation page",
+      para: "A responsive hotel booking confirmation page showcasing reservation details, receipt, host note, and practical info (arrival, WiFi, breakfast). Designed with clean UI, smooth UX, and optional features like print receipt and add to calendar.",
+      lang: ["JavaScript"],
+      libraries: ["React", "TypeScript", "Tailwind CSS", "Vite"],
+      link:"https://booking-confirmation-page.vercel.app/"
+    },
+
   ];
 
   return (
@@ -63,6 +83,7 @@ function Project() {
               para={project.para}
               lang={project.lang}
               libraries={project.libraries}
+              link={project.link}
             />
           ))}
         </div>
