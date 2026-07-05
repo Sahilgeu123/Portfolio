@@ -39,6 +39,7 @@ function Project() {
       para: "Brain Tumor Detection is an AI-powered medical imaging application that analyzes brain MRI scans using a Convolutional Neural Network (CNN) to detect the presence of tumors. Users can upload MRI images through a simple interface and receive quick, accurate predictions, helping support early diagnosis and improving the efficiency of medical image analysis.",
       lang: ["Python"],
       libraries: ["TensorFlow", "Keras", "OpenCV", "NumPy", "Pandas"],
+      link:"https://brain-tumor-detection-theta-flame.vercel.app/"
     },
     {
       title: "Apple 3D Website Clone",

@@ -1,7 +1,7 @@
 import "./about.css";
 import useScrollAnimation from "./useScrollAnimation.tsx";
 import "./global.css";
-
+import self from "../../public/self2.png"
 function About() {
   useScrollAnimation();
   return (
@@ -22,9 +22,16 @@ function About() {
             technology that is both functional and inspiring.
           </p>
           <div className="cont101 flex flex-col gap-3 mt-10 mb-10">
+            <p className="p1   ">
+              <img
+                className="img p-2"
+                src="/web.png"
+              ></img>
+              Responsive & Creative Web Development
+            </p>
             <p className="p1">
               <img
-                className="img "
+                className="w-10 ml-4 mr-1"
                 src="/ai.png"
               ></img>
               Scalable AI application Development
@@ -36,37 +43,20 @@ function About() {
               ></img>
               Machine Learning & Computer Vision
             </p>
-            <p className="p1   ">
-              <img
-                className="img p-2"
-                src="/web.png"
-              ></img>
-              Responsive & Creative Web Development
-            </p>
-            <p className="p1 relative">
-              <img
-                className="img"
-                src="/edu.png"
-              ></img>
 
-              Bachelors in Computer Science
-            </p>
           </div>
         </div>
         <div className="maincard rounded-4xl p-5 flex justify-center items-center lg:ml-20 ">
-          <div className="card relative flex bg-[#f1edfb] lg:mt-10  border-3 border-[#3d315c] rounded-4xl  shadow-gray-500 shadow-md  h-130 w-100">
-            <div className=" pr-9">
-              <div className="absolute z-51 bg-white right-4 top-3 bg-gray text-black font-bold border-2 border-white  shadow-sm shadow-gray-700 rounded-2xl px-3">
-                Web Dev & AI
-              </div>
+          <div className="card relative flex justify-center bg-[#f1edfb]/70 lg:mt-10  border-3 border-[#3d315c] rounded-4xl  shadow-gray-500 shadow-md  h-125 w-90">
+            <div className="absolute z-51 bg-white right-4 top-3 bg-gray text-black font-bold border-2 border-white  shadow-sm shadow-gray-700 rounded-2xl px-3">
+              Web Dev & AI
             </div>
-            <div className=" text-black mx-auto ">
-              <img
-                src="https://i.pinimg.com/1200x/60/71/ea/6071ea85096c89b9dafddf26403c84c7.jpg"
-                className=" rounded-t-4xl right-[0px] absolute "
-              />
-            </div>
-            <div className="absolute top-12 left-5 text-black font-bold mt-90 ">
+
+            <img
+              src={self}
+              className=" rounded-t-4xl  h-96 object-contain"
+            />
+            <div className="absolute top-8 left-5 text-black font-bold mt-90 ">
               <p className="text-3xl text-[#2f2741]">Sahil Alam</p>
               <p className="mb-2 text-md font-semibold text-[#2f2741]">
                 Computer Science Student
