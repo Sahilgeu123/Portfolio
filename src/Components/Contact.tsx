@@ -1,163 +1,251 @@
-import "./home.css";
-import useScrollAnimation from "./useScrollAnimation.tsx";
 import { useState } from "react";
+import { ArrowUpRight, Mail, Copy, Check, Send, MapPin } from "./Icons";
+import { portfolioData } from "../data/portfolioData";
+import ArchitecturalGrid from "./ArchitecturalGrid";
 
-interface FormData {
-  name: string;
-  email: string;
-  subject: string;
-  message: string;
-}
-
-function Contact() {
-  const [form, setForm] = useState<FormData>({
+export const Contact = () => {
+  const [copied, setCopied] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [formData, setFormData] = useState({
     name: "",
     email: "",
     subject: "",
     message: "",
   });
 
-  const submithandler = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const formElement = e.currentTarget;
-    const formData = new FormData(formElement);
-    setForm({
-      ...form,
-      name: formData.get("name") as string,
-      email: formData.get("email") as string,
-      subject: formData.get("subject") as string,
-      message: formData.get("message") as string,
-    });
-    alert(`Form submitted: ${formData.get("name")}`);
+  const handleCopyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText(portfolioData.profile.email);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2200);
+    } catch {
+      window.location.href = `mailto:${portfolioData.profile.email}`;
+    }
   };
-  useScrollAnimation();
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const mailtoUrl = `mailto:${portfolioData.profile.email}?subject=${encodeURIComponent(
+      formData.subject || `Project Inquiry from ${formData.name}`
+    )}&body=${encodeURIComponent(
+      `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
+    )}`;
+    window.location.href = mailtoUrl;
+    setSubmitted(true);
+    setTimeout(() => setSubmitted(false), 3500);
+  };
 
   return (
-    <section id="contact" className="scroll-hidden min-h-screen pt-45 ">
-      <div className="text-center">
-        <h2 className="text-5xl font-bold">Get in Touch</h2>
-        <p className="mt-4 text-xl font-medium text-[#dcd3f1]">
-          Have a project in mind or want to collaborate?
-        </p>
-        <p className="mt-2 text-xl font-semibold">Let's connect!</p>
-      </div>
-      <div className="flex flex-col xl:w- mt-5 sm:p-4  xl:px-80 xl:flex-row items-center justify-center">
-        <div className="mt-[60px] xl:-mt-[-15px] xl:w-2/4 sm:px-20 md:px-42 xl:px-0 pb-5">
-          <p className=" text-xl p-5 md:mt-[-90px] font-semibold text-[#dcd3f1]">
-            I'm always excited to discuss new opportunities, AI research
-            collaborations, or interesting ideas.Feel free to reach out throuugh
-            any of the channels below.
+    <section
+      id="contact"
+      className="relative z-10 overflow-hidden bg-[#111111] px-6 pt-24 pb-28 text-white lg:px-12"
+    >
+      {/* 4-Column Architectural Grid in Dark Variant */}
+      <ArchitecturalGrid variant="dark" />
+
+      {/* Giant Outline Watermark Typography */}
+      <p
+        aria-hidden="true"
+        className="text-outline-dark pointer-events-none absolute inset-x-0 top-6 z-0 select-none text-center font-display text-[17vw] leading-none"
+      >
+        LET'S TALK
+      </p>
+
+      <div className="relative z-10 mx-auto max-w-5xl">
+        {/* Header Block */}
+        <div className="flex flex-col items-center text-center">
+          <p className="flex items-center gap-2 font-grotesk text-xs uppercase tracking-[0.3em] text-white/50">
+            <span className="h-px w-8 bg-white/25" />
+            Have a project in mind?
+            <span className="h-px w-8 bg-white/25" />
           </p>
-          <div className="flex flex-col gap-2 m-4 text-[#3f3457] text-xl font-bold">
-            <a
-              href="https://github.com/Sahilgeu123"
-              target="_blank"
-              rel="noopener noreferrer"
+
+          <h2 className="font-display mt-8 text-5xl leading-[0.92] tracking-tight text-white sm:text-7xl lg:text-8xl">
+            HAVE A PROJECT
+            <br />
+            <span className="italic font-grotesk text-[#c9c2b4]">in mind?</span>
+          </h2>
+
+          <p className="mt-8 max-w-md text-base leading-relaxed text-white/65">
+            Let's turn your idea into a high-end digital experience. I'm currently accepting new projects, AI research collaborations, and engineering roles.
+          </p>
+
+          {/* Direct One-Click Copy & Email Action */}
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
+            <button
+              onClick={handleCopyEmail}
+              className={`group flex items-center gap-3 rounded-full border px-8 py-4 font-grotesk text-sm font-medium transition-all duration-300 ${
+                copied
+                  ? "border-emerald-400/50 bg-emerald-500/15 text-emerald-300"
+                  : "border-white/20 bg-white/5 text-white hover:border-[#c9c2b4] hover:bg-white/10"
+              }`}
             >
-              <div
-                className="flex items-center bg-zinc-300 w-full p-5 rounded-2xl
-                 border-2 border-[#786796]
-              hover:bg-white transition-colors duration-300 ease-in-out"
-              >
-                <img
-                  className="w-8 h-8 inline-block mr-2 rounded-full"
-                  src="/git.jpg"
-                  alt="GitHub"
-                />
-                GitHub
-              </div>
-            </a>
+              {copied ? <Check size={16} /> : <Copy size={16} />}
+              <span>{copied ? "Email Copied to Clipboard!" : "Copy Email Address"}</span>
+            </button>
 
             <a
-              href="https://www.linkedin.com/in/sahil-alam-456816294/"
-              target="_blank"
-              rel="noopener noreferrer"
+              href={`mailto:${portfolioData.profile.email}`}
+              className="group relative flex items-center gap-3 overflow-hidden rounded-full bg-white px-8 py-4 font-grotesk text-sm font-semibold text-neutral-900 transition-all duration-300 hover:shadow-xl"
             >
-              <div
-                className="flex items-center bg-zinc-300 w-full p-5 rounded-2xl
-                 border-2 border-[#786796]
-              hover:bg-white transition-colors duration-300 ease-in-out"
-              >
-                <img
-                  className="w-8 h-8 inline-block mr-2 rounded-full"
-                  src="/in.jpg"
-                  alt="LinkedIn"
-                />
-                LinkedIn
-              </div>
-            </a>
-
-            <a
-              href="mailto:sahilalam3d@example.com"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <div
-                className="flex items-center bg-zinc-300 w-full p-5 rounded-2xl
-                 border-2 border-[#786796]
-              hover:bg-white transition-colors duration-300 ease-in-out"
-              >
-                <img
-                  className="w-8 h-8  inline-block mr-2 rounded-full"
-                  src="/email.jpg"
-                  alt="Email"
-                />
-                Email
-              </div>
+              <span className="absolute inset-0 -translate-x-full bg-[#c9c2b4] transition-transform duration-500 ease-out group-hover:translate-x-0" />
+              <span className="relative flex items-center gap-2">
+                <Mail size={16} />
+                Send Direct Email
+              </span>
+              <span className="relative flex h-6 w-6 items-center justify-center rounded-full bg-neutral-900 text-white transition-transform duration-500 group-hover:rotate-45">
+                <ArrowUpRight size={13} strokeWidth={2.6} />
+              </span>
             </a>
           </div>
+
+          <p className="mt-4 font-grotesk text-xs tracking-wide text-white/40">
+            {portfolioData.profile.email} — typically responds within 24 hours
+          </p>
         </div>
-        <form
-          onSubmit={(e) => {
-            submithandler(e);
-          }}
-          className=" my-10 sm:m-0 form pt-11 space-y-4 px-4 py-4 shadow-[0_10px_20px_rgba(0,0,0,0.2)] shadow-3xl
-          border-3 border-[#8f87a3] rounded-4xl bg-[#1c142a]
-          flex flex-col w-md md:w-2/3"
-        >
-          <div className="flex flex-col lg:flex-row gap-4">
-            <div className="w-full">
-              <p className="text-xl font-semibold text-[#dcd3f1] ml-1 mb-3">Name</p>
-              <input
-                className="p-2 border-2 border-[#8f87a3] rounded-xl focus:outline-none focus:ring-2 w-full"
-                type="text"
-                placeholder="Your Name"
-                name="name"
-              />
+
+        {/* Contact Form & Social Details Grid */}
+        <div className="mt-16 grid grid-cols-1 gap-12 lg:grid-cols-[1fr_1.3fr]">
+          {/* Left: Contact Channels */}
+          <div className="flex flex-col justify-between rounded-3xl border border-white/10 bg-white/[0.03] p-8 backdrop-blur-xl">
+            <div>
+              <span className="font-grotesk text-xs uppercase tracking-[0.2em] text-[#c9c2b4]">
+                Reach Out Anywhere
+              </span>
+
+              <h3 className="font-display mt-3 text-3xl text-white">
+                Let's connect & build.
+              </h3>
+
+              <p className="mt-4 text-sm leading-relaxed text-white/60">
+                Whether you want to discuss full-stack web applications, agentic AI pipelines, 3D interactive experiences, or explore new opportunities, my inbox is always open.
+              </p>
+
+              {/* Information Badges */}
+              <div className="mt-8 flex flex-col gap-4">
+                <div className="flex items-center gap-3 text-sm text-white/75">
+                  <span className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-[#c9c2b4]">
+                    <MapPin size={17} />
+                  </span>
+                  <div>
+                    <p className="font-medium text-white">{portfolioData.profile.location}</p>
+                    <p className="text-xs text-white/50">{portfolioData.profile.university}</p>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-3 text-sm text-white/75">
+                  <span className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-[#c9c2b4]">
+                    <Mail size={17} />
+                  </span>
+                  <div>
+                    <p className="font-medium text-white">{portfolioData.profile.email}</p>
+                    <p className="text-xs text-white/50">Primary contact channel</p>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div className="w-full">
-              <p className="text-xl font-semibold text-[#dcd3f1] ml-1 mb-3">Email</p>
-              <input
-                className="p-2 border-2 border-[#8f87a3] rounded-xl w-full focus:outline-none focus:ring-2 "
-                type="email"
-                placeholder="Your Email"
-                name="email"
-              />
+
+            {/* Socials Link Row */}
+            <div className="mt-10 border-t border-white/10 pt-6">
+              <span className="font-grotesk text-xs uppercase tracking-[0.2em] text-white/40 block mb-3">
+                Social Profiles
+              </span>
+              <div className="flex flex-wrap gap-2">
+                {portfolioData.profile.socials.map((social) => (
+                  <a
+                    key={social.label}
+                    href={social.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-2 font-grotesk text-xs text-white/80 transition-all hover:border-[#c9c2b4] hover:text-white hover:bg-white/10"
+                  >
+                    <span>{social.label}</span>
+                    <ArrowUpRight size={12} />
+                  </a>
+                ))}
+              </div>
             </div>
           </div>
-          <p className="text-xl font-semibold text-[#dcd3f1] ml-1 mb-3">Subject</p>
-          <input
-            className="p-2 border-2 border-[#8f87a3] rounded-xl focus:outline-none focus:ring-2 "
-            type="text"
-            placeholder="Subject"
-            name="subject"
-          />
-          <p className="text-xl font-semibold text-[#dcd3f1] ml-1">Message</p>
-          <textarea
-            className="p-2 border-2 border-[#8f87a3] h-32 rounded-xl focus:outline-none focus:ring-2 "
-            placeholder="Your Message"
-            name="message"
-          ></textarea>
-          <button
-            className="hover:scale-95 transition-transform duration-700 bg-[#1c142a] hover:bg-[#382e4f] "
-            type="submit"
+
+          {/* Right: Message Form */}
+          <form
+            onSubmit={handleSubmit}
+            className="flex flex-col gap-5 rounded-3xl border border-white/10 bg-white/[0.04] p-8 backdrop-blur-xl"
           >
-            Send Message
-          </button>
-        </form>
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+              <div>
+                <label className="font-grotesk text-xs uppercase tracking-[0.18em] text-white/60">
+                  Your Name
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  placeholder="Sahil Alam"
+                  className="mt-2 w-full rounded-2xl border border-white/15 bg-white/5 px-4 py-3.5 text-sm text-white placeholder-white/30 outline-none transition-colors focus:border-[#c9c2b4] focus:bg-white/10"
+                />
+              </div>
+
+              <div>
+                <label className="font-grotesk text-xs uppercase tracking-[0.18em] text-white/60">
+                  Email Address
+                </label>
+                <input
+                  type="email"
+                  required
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  placeholder="you@company.com"
+                  className="mt-2 w-full rounded-2xl border border-white/15 bg-white/5 px-4 py-3.5 text-sm text-white placeholder-white/30 outline-none transition-colors focus:border-[#c9c2b4] focus:bg-white/10"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="font-grotesk text-xs uppercase tracking-[0.18em] text-white/60">
+                Subject
+              </label>
+              <input
+                type="text"
+                required
+                value={formData.subject}
+                onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
+                placeholder="Product design, AI consultation, or engineering"
+                className="mt-2 w-full rounded-2xl border border-white/15 bg-white/5 px-4 py-3.5 text-sm text-white placeholder-white/30 outline-none transition-colors focus:border-[#c9c2b4] focus:bg-white/10"
+              />
+            </div>
+
+            <div>
+              <label className="font-grotesk text-xs uppercase tracking-[0.18em] text-white/60">
+                Project Details
+              </label>
+              <textarea
+                required
+                rows={4}
+                value={formData.message}
+                onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                placeholder="Tell me about what you'd like to build, timeline, and goals..."
+                className="mt-2 w-full resize-none rounded-2xl border border-white/15 bg-white/5 px-4 py-3.5 text-sm text-white placeholder-white/30 outline-none transition-colors focus:border-[#c9c2b4] focus:bg-white/10"
+              />
+            </div>
+
+            <button
+              type="submit"
+              className="group mt-2 flex items-center justify-center gap-3 rounded-full bg-white px-8 py-4 font-grotesk text-sm font-semibold text-neutral-900 transition-all duration-300 hover:bg-[#c9c2b4] hover:shadow-xl"
+            >
+              <Send size={15} />
+              <span>{submitted ? "Message Dispatched!" : "Send Message"}</span>
+              <ArrowUpRight
+                size={15}
+                className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+              />
+            </button>
+          </form>
+        </div>
       </div>
     </section>
   );
-}
+};
 
 export default Contact;
