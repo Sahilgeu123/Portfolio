@@ -266,15 +266,15 @@ export const Home = () => {
                     Experience
                   </span>
                   <p className="font-display mt-1 text-lg text-neutral-900">
-                    {portfolioData.profile.experienceYears} Years
+                    {portfolioData.profile.experienceYears} 
                   </p>
                 </div>
                 <div className="rounded-xl border border-neutral-900/5 bg-neutral-50/70 p-3">
                   <span className="font-grotesk text-[10px] uppercase tracking-[0.2em] text-neutral-500">
-                    Shipped
+                    Worked On
                   </span>
                   <p className="font-display mt-1 text-lg text-neutral-900">
-                    {portfolioData.profile.projectsCount} Works
+                    {portfolioData.profile.projectsCount} Projects
                   </p>
                 </div>
               </div>

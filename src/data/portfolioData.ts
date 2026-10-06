@@ -39,23 +39,23 @@ export interface JourneyItem {
 export const portfolioData = {
   profile: {
     name: "Sahil Alam",
-    role: "Frontend Developer",
-    shortRole: "Frontend Developer",
+    role: "Agentic AI Full Stack Developer",
+    shortRole: "Full Stack Developer",
     tagline: "Building responsive web experiences with modern frontend tools.",
     pitch: "I build responsive web applications using React, JavaScript, Next.js, TypeScript, and Tailwind CSS, with a focus on clean UI and user-friendly experiences.",
-    detailedBio: "Frontend Developer with hands-on experience building responsive web applications using React, JavaScript, Next.js, TypeScript, and Tailwind CSS. Experienced in developing interactive UI components, integrating REST APIs, and creating responsive, user-focused web experiences.",
+    detailedBio: "Full Stack Developer with hands-on experience building responsive web applications using React, JavaScript, Next.js, TypeScript, and Tailwind CSS. Experienced in developing interactive UI components, integrating REST APIs, and creating responsive, user-focused web experiences.",
     location: "Dehradun, India",
     university: "Graphic Era Deemed To Be University",
     degree: "Bachelor of Computer Applications",
     email: "alamsahil3d@gmail.com",
     phone: "+91 7452939232",
-    experienceYears: "1",
+    experienceYears: "Fresher",
     projectsCount: "3+",
     satisfaction: "100%",
     available: true,
     statusText: "Available for New Projects",
     resumeUrl: "/resume.pdf",
-    photoUrl: "/self2.png",
+    photoUrl: "/face.png",
     socials: [
       {
         label: "GitHub",
