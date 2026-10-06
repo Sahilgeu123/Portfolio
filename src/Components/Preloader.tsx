@@ -5,7 +5,7 @@ interface PreloaderProps {
   onComplete: () => void;
 }
 
-const words = ["FRONTEND", "REACT", "NEXT.JS", "SAHIL ALAM"];
+const words = ["AGENTS", "FRONTEND", "BACKEND", "SAHIL ALAM"];
 
 export const Preloader = ({ onComplete }: PreloaderProps) => {
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
@@ -85,7 +85,7 @@ export const Preloader = ({ onComplete }: PreloaderProps) => {
   return (
     <div
       ref={containerRef}
-      className="fixed inset-0 z-[200] flex flex-col items-center justify-center overflow-hidden bg-[#111111] text-white select-none cursor-pointer"
+      className="fixed inset-0 z-200 flex flex-col items-center justify-center overflow-hidden bg-[#111111] text-white select-none cursor-pointer"
       onClick={handleExit}
       title="Click to skip"
     >
@@ -100,7 +100,7 @@ export const Preloader = ({ onComplete }: PreloaderProps) => {
       />
 
       {/* Word Revealer */}
-      <div className="relative flex h-[1.3em] items-center justify-center overflow-hidden px-6">
+      <div className="relative flex h-[1.8em]  md:h-[2.8em] items-center justify-center overflow-hidden px-6 ">
         <span
           ref={textRef}
           className="font-display text-center text-[11vw] font-bold tracking-tight text-white sm:text-6xl lg:text-8xl"
@@ -110,7 +110,7 @@ export const Preloader = ({ onComplete }: PreloaderProps) => {
       </div>
 
       <p className="mt-6 font-grotesk text-xs uppercase tracking-[0.4em] text-white/50">
-        Sahil Alam — Frontend Developer
+        Sahil Alam — Agentic AI Full Stack Developer
       </p>
 
       {/* Progress Bar */}
