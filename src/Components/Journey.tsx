@@ -80,9 +80,8 @@ export const Journey = () => {
                 key={`${item.organization}-${index}`}
                 onMouseEnter={() => setHoveredIdx(index)}
                 onMouseLeave={() => setHoveredIdx(null)}
-                className={`group relative grid cursor-default grid-cols-1 gap-4 border-t border-white/12 py-10 transition-all duration-500 md:grid-cols-[1.2fr_2fr_auto] md:items-baseline md:gap-8 ${
-                  isHovered ? "border-white/40 bg-white/[0.02]" : "hover:border-white/30"
-                }`}
+                className={`group relative grid cursor-default grid-cols-1 gap-4 border-t border-white/12 py-10 transition-all duration-500 md:grid-cols-[1.2fr_2fr_auto] md:items-baseline md:gap-8 ${isHovered ? "border-white/40 bg-white/[0.02]" : "hover:border-white/30"
+                  }`}
               >
                 {/* Timeline Anchor Node */}
                 <span className="absolute -top-[5px] left-0 flex h-2.5 w-2.5 items-center justify-center">

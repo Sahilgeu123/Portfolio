@@ -44,9 +44,9 @@ export const About = () => {
           {/* Left Column: Portrait Card */}
           <div className="relative mx-auto w-full max-w-sm lg:mx-0">
             {/* Ambient backlight */}
-            <div className="absolute -inset-5 rounded-[2.5rem] bg-gradient-to-tr from-neutral-900/5 via-transparent to-neutral-900/10 blur-2xl" />
+            <div className="absolute -inset-5 rounded-[2.5rem] bg-linear-to-tr from-neutral-900/5 via-transparent to-neutral-900/10 blur-2xl" />
 
-            <div className="group relative aspect-[4/5] w-full overflow-hidden rounded-3xl border border-neutral-900/10 bg-neutral-100 shadow-2xl transition-all duration-500 hover:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.15)]">
+            <div className="group relative aspect-4/5 w-full overflow-hidden rounded-3xl border border-neutral-900/10 bg-neutral-100 shadow-2xl transition-all duration-500 hover:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.15)]">
               {/* Photo */}
               <img
                 src={portfolioData.profile.photoUrl}
@@ -132,7 +132,7 @@ export const About = () => {
                   Experience
                 </dt>
                 <dd className="mt-2 text-sm font-medium leading-snug text-neutral-900">
-                  {portfolioData.profile.experienceYears} Years
+                  {portfolioData.profile.experienceYears}
                 </dd>
               </div>
 

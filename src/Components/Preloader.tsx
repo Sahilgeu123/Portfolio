@@ -109,7 +109,8 @@ export const Preloader = ({ onComplete }: PreloaderProps) => {
         </span>
       </div>
 
-      <p className="mt-6 font-grotesk text-xs uppercase tracking-[0.4em] text-white/50">
+      <p className="mt-6 w-full max-w-[90vw] px-4 text-center font-grotesk text-[8px] uppercase tracking-[0.25em] text-white/50 
+      sm:text-xs md:max-w-none md:tracking-[0.4em]">
         Sahil Alam — Agentic AI Full Stack Developer
       </p>
 
