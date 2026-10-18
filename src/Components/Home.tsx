@@ -4,6 +4,7 @@ import { ArrowUpRight, ArrowDown, Compass, Terminal } from "./Icons";
 import { portfolioData } from "../data/portfolioData";
 import TopologyMesh from "./TopologyMesh";
 import ArchitecturalGrid from "./ArchitecturalGrid";
+import ScrambleText from "./ScrambleText";
 
 export const Home = () => {
   const heroRef = useRef<HTMLDivElement | null>(null);
@@ -188,7 +189,7 @@ export const Home = () => {
                 className="inline-flex items-center gap-2 font-grotesk text-xs uppercase tracking-[0.2em] text-neutral-600 transition-colors hover:text-neutral-900 px-3 py-2"
               >
                 <Terminal size={14} />
-                GitHub Repos
+                <ScrambleText text="GitHub Repos" duration={500} />
               </a>
             </div>
 
@@ -205,7 +206,7 @@ export const Home = () => {
                   rel="noopener noreferrer"
                   className="group inline-flex items-center gap-1 font-grotesk text-xs font-medium text-neutral-700 transition-colors hover:text-neutral-900"
                 >
-                  <span>{social.label}</span>
+                  <span><ScrambleText text={social.label} duration={200} /></span>
                   <ArrowUpRight
                     size={11}
                     className="opacity-40 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:opacity-100"
@@ -218,7 +219,7 @@ export const Home = () => {
           {/* Right Column: Interactive Profile Card / Preview Chip */}
           <div ref={chipRef} className="relative mx-auto w-full max-w-sm lg:mx-0">
             {/* Ambient Backlight Glow */}
-            <div className="absolute -inset-6 rounded-[3rem] bg-gradient-to-tr from-neutral-900/5 via-transparent to-neutral-900/15 blur-2xl" />
+            <div className="absolute -inset-6 rounded-[3rem] bg-linear-to-tr from-neutral-900/5 via-transparent to-neutral-900/15 blur-2xl" />
 
             <div className="group relative overflow-hidden rounded-3xl border border-neutral-900/10 bg-white/80 p-6 shadow-2xl backdrop-blur-xl transition-all duration-500 hover:border-neutral-900/25">
               {/* Photo & Status */}
@@ -243,10 +244,10 @@ export const Home = () => {
                 <div className="absolute inset-x-3 bottom-3 flex items-center justify-between rounded-xl bg-white/80 px-4 py-3 backdrop-blur-md">
                   <div>
                     <p className="font-display text-sm text-neutral-900">
-                      {portfolioData.profile.name}
+                      <ScrambleText text="SAHIL ALAM" duration={300} />
                     </p>
                     <p className="font-grotesk text-[10px] uppercase tracking-[0.15em] text-neutral-600">
-                      Graphic Era University
+                      <ScrambleText text="Graphic Era University" duration={300} />
                     </p>
                   </div>
                   <a
@@ -266,7 +267,7 @@ export const Home = () => {
                     Experience
                   </span>
                   <p className="font-display mt-1 text-lg text-neutral-900">
-                    {portfolioData.profile.experienceYears} 
+                    <ScrambleText text={portfolioData.profile.experienceYears} duration={300} />
                   </p>
                 </div>
                 <div className="rounded-xl border border-neutral-900/5 bg-neutral-50/70 p-3">

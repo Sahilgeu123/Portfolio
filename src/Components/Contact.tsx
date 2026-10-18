@@ -2,7 +2,9 @@ import { useState } from "react";
 import { ArrowUpRight, Mail, Copy, Check, Send, MapPin } from "./Icons";
 import { portfolioData } from "../data/portfolioData";
 import ArchitecturalGrid from "./ArchitecturalGrid";
-
+import CharReveal from "./CharReveal";
+import TextReveal from "./TextReveal";
+import ScrollOpacity from "./ScrollOpacity"
 export const Contact = () => {
   const [copied, setCopied] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -53,32 +55,35 @@ export const Contact = () => {
 
       <div className="relative z-10 mx-auto max-w-5xl">
         {/* Header Block */}
-        <div className="flex flex-col items-center text-center">
+
+        <ScrollOpacity className="flex flex-col justify-center items-center text-center" startOpacity={0.2} endOpacity={1}>
           <p className="flex items-center gap-2 font-grotesk text-xs uppercase tracking-[0.3em] text-white/50">
             <span className="h-px w-8 bg-white/25" />
-            Have a project in mind?
+            <CharReveal>Have a project in mind?</CharReveal>
             <span className="h-px w-8 bg-white/25" />
           </p>
 
-          <h2 className="font-display mt-8 text-5xl leading-[0.92] tracking-tight text-white sm:text-7xl lg:text-8xl">
+          <CharReveal className="font-display mt-8 text-5xl leading-[0.92] tracking-tight text-white sm:text-7xl lg:text-8xl" delay={0.1}>
             HAVE A PROJECT
-            <br />
-            <span className="italic font-grotesk text-[#c9c2b4]">in mind?</span>
-          </h2>
+          </CharReveal>
+          <TextReveal className=" italic font-grotesk text-[#c9c2b4]">in mind?</TextReveal>
 
-          <p className="mt-8 max-w-md text-base leading-relaxed text-white/65">
-            Let's turn your idea into a high-end digital experience. I'm currently accepting new projects, AI research collaborations, and engineering roles.
+
+          <p className=" mt-8 max-w-md text-base leading-relaxed text-white/65">
+            <TextReveal>
+              Let's turn your idea into a high-end digital experience. I'm currently accepting new projects, AI research collaborations, and engineering roles.
+            </TextReveal>
           </p>
 
           {/* Direct One-Click Copy & Email Action */}
-          <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
+          <TextReveal className="mt-10 flex flex-wrap items-center justify-center gap-4" delay={0.3}>
+
             <button
               onClick={handleCopyEmail}
-              className={`group flex items-center gap-3 rounded-full border px-8 py-4 font-grotesk text-sm font-medium transition-all duration-300 ${
-                copied
-                  ? "border-emerald-400/50 bg-emerald-500/15 text-emerald-300"
-                  : "border-white/20 bg-white/5 text-white hover:border-[#c9c2b4] hover:bg-white/10"
-              }`}
+              className={`group flex items-center gap-3 rounded-full border px-8 py-4 font-grotesk text-sm font-medium transition-all duration-300 ${copied
+                ? "border-emerald-400/50 bg-emerald-500/15 text-emerald-300"
+                : "border-white/20 bg-white/5 text-white hover:border-[#c9c2b4] hover:bg-white/10"
+                }`}
             >
               {copied ? <Check size={16} /> : <Copy size={16} />}
               <span>{copied ? "Email Copied to Clipboard!" : "Copy Email Address"}</span>
@@ -97,12 +102,13 @@ export const Contact = () => {
                 <ArrowUpRight size={13} strokeWidth={2.6} />
               </span>
             </a>
-          </div>
+          </TextReveal>
+
 
           <p className="mt-4 font-grotesk text-xs tracking-wide text-white/40">
             {portfolioData.profile.email} — typically responds within 24 hours
           </p>
-        </div>
+        </ScrollOpacity>
 
         {/* Contact Form & Social Details Grid */}
         <div className="mt-16 grid grid-cols-1 gap-12 lg:grid-cols-[1fr_1.3fr]">

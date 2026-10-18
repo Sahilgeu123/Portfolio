@@ -129,3 +129,31 @@
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+
+
+.scramble {
+  display: inline-block;
+  font-family: monospace;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+}
+
+.hero h1 {
+  font-size: clamp(2.5rem, 8vw, 7rem);
+  line-height: 1.05;
+  overflow-wrap: anywhere;
+}
+
+.intro {
+  font-family: monospace;
+  font-size: 0.85rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.description {
+  font-size: 1.1rem;
+  line-height: 1.7;
+}
+

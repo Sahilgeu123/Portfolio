@@ -1,5 +1,6 @@
 import { ArrowUpRight, ArrowUp } from "./Icons";
 import { portfolioData } from "../data/portfolioData";
+import ScrambleText from "./ScrambleText";
 
 export const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -20,7 +21,7 @@ export const Footer = () => {
                 <ArrowUpRight size={17} strokeWidth={2.4} />
               </span>
               <span className="font-display text-xl tracking-tight text-white">
-                SAHIL ALAM
+                <ScrambleText text="SAHIL ALAM" duration={300}/>
               </span>
             </a>
 

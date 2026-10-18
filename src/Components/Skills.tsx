@@ -1,5 +1,8 @@
 import { portfolioData } from "../data/portfolioData";
 import ArchitecturalGrid from "./ArchitecturalGrid";
+import CharReveal from "./CharReveal";
+import ScrollOpacity from "./ScrollOpacity";
+import TextReveal from "./TextReveal";
 
 export const Skills = () => {
   return (
@@ -20,27 +23,28 @@ export const Skills = () => {
 
       <div className="relative z-10 mx-auto max-w-7xl">
         {/* Section Heading */}
-        <div>
-          <div className="flex items-center gap-3">
-            <span className="font-grotesk text-xs font-medium uppercase tracking-[0.25em] text-neutral-500">
-              /04
-            </span>
-            <span className="font-grotesk text-xs font-medium uppercase tracking-[0.25em] text-neutral-700">
-              Skills
-            </span>
-            <span className="h-px flex-1 bg-neutral-900/15" />
+        <ScrollOpacity delay={0.1} startOpacity={0.2} endOpacity={1}>
+          <div>
+            <div className="flex items-center gap-3">
+              <span className="font-grotesk text-xs font-medium uppercase tracking-[0.25em] text-neutral-500">
+                /04
+              </span>
+              <span className="font-grotesk text-xs font-medium uppercase tracking-[0.25em] text-neutral-700">
+                Skills
+              </span>
+              <span className="h-px flex-1 bg-neutral-900/15" />
+            </div>
+
+            <CharReveal className="font-display mt-6 text-4xl leading-[0.95] text-neutral-900 sm:text-5xl lg:text-6xl">
+              The full stack
+            </CharReveal>
+            <CharReveal className=" font-display mt-6 text-4xl leading-[0.95] sm:text-5xl lg:text-6xl text-neutral-900/35">behind every build</CharReveal>
           </div>
 
-          <h2 className="font-display mt-6 text-4xl leading-[0.95] text-neutral-900 sm:text-5xl lg:text-6xl">
-            The full stack
-            <br />
-            <span className="text-neutral-900/35">behind every build</span>
-          </h2>
-        </div>
-
-        <p className="mt-6 max-w-2xl text-base leading-relaxed text-neutral-700 sm:text-lg">
-          An end-to-end toolkit spanning the MERN stack, Next.js, secure authentication, machine learning, and GSAP motion design — engineered to bring complex digital products from concept to production.
-        </p>
+          <TextReveal className="mt-6 max-w-2xl text-base leading-relaxed text-neutral-700 sm:text-lg">
+            An end-to-end toolkit spanning the MERN stack, Next.js, secure authentication, machine learning, and GSAP motion design — engineered to bring complex digital products from concept to production.
+          </TextReveal>
+        </ScrollOpacity>
 
         {/* Infinite Marquee Ticker */}
         <div className="relative mt-14 overflow-hidden py-4 [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">

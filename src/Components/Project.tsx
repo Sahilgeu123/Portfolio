@@ -2,7 +2,9 @@ import { useState } from "react";
 import { ArrowUpRight, ExternalLink, Github } from "./Icons";
 import { portfolioData } from "../data/portfolioData";
 import ArchitecturalGrid from "./ArchitecturalGrid";
-
+import ScrambleText from "./ScrambleText";
+import WordReveal from "./WordReveal";
+import ScrollOpacity from "./ScrollOpacity";
 export const Project = () => {
   const [activeCategory, setActiveCategory] = useState<string>("All");
 
@@ -28,27 +30,34 @@ export const Project = () => {
       >
         PROJECTS
       </p>
-
       <div className="relative z-10 mx-auto max-w-7xl">
         {/* Section Heading */}
-        <div>
-          <div className="flex items-center gap-3">
-            <span className="font-grotesk text-xs font-medium uppercase tracking-[0.25em] text-neutral-500">
-              /02
-            </span>
-            <span className="font-grotesk text-xs font-medium uppercase tracking-[0.25em] text-neutral-700">
-              Selected Work
-            </span>
-            <span className="h-px flex-1 bg-neutral-900/15" />
+        <ScrollOpacity startOpacity={0.2} endOpacity={1}>
+
+          <div>
+            <div className="flex items-center gap-3">
+              <span className="font-grotesk text-xs font-medium uppercase tracking-[0.25em] text-neutral-500">
+                /02
+              </span>
+              <span className="font-grotesk text-xs font-medium uppercase tracking-[0.25em] text-neutral-700">
+                Selected Work
+              </span>
+              <span className="h-px flex-1 bg-neutral-900/15" />
+            </div>
+            <WordReveal className="font-display mt-6 text-4xl leading-[0.95] text-neutral-900 sm:text-5xl lg:text-6xl">
+              Selected
+            </WordReveal>
+
+            <WordReveal className="mt-6 font-display font-grotesk text-4xl italic leading-[0.95] sm:text-5xl lg:text-6xl">
+              work
+            </WordReveal>
+
+            <WordReveal className="mt-6 font-display text-4xl leading-[0.95] text-neutral-900/35 sm:text-5xl lg:text-6xl">
+              that speaks for itself
+            </WordReveal>
+
           </div>
-
-          <h2 className="font-display mt-6 text-4xl leading-[0.95] text-neutral-900 sm:text-5xl lg:text-6xl">
-            Selected <span className="italic font-grotesk">work</span>
-            <br />
-            <span className="text-neutral-900/35">that speaks for itself</span>
-          </h2>
-        </div>
-
+        </ScrollOpacity>
         {/* Filter Tabs & Project Count */}
         <div className="mt-12 flex flex-wrap items-center justify-between gap-4 border-b border-neutral-900/10 pb-6">
           <div className="flex flex-wrap items-center gap-2">
@@ -58,13 +67,12 @@ export const Project = () => {
                 <button
                   key={category}
                   onClick={() => setActiveCategory(category)}
-                  className={`relative rounded-full px-5 py-2.5 font-grotesk text-xs uppercase tracking-wider transition-all duration-300 ${
-                    isActive
-                      ? "bg-neutral-900 text-white shadow-md"
-                      : "bg-white/60 text-neutral-600 hover:bg-white hover:text-neutral-900 border border-neutral-900/10"
-                  }`}
+                  className={`relative rounded-full px-5 py-2.5 font-grotesk text-xs uppercase tracking-wider transition-all duration-300 ${isActive
+                    ? "bg-neutral-900 text-white shadow-md"
+                    : "bg-white/60 text-neutral-600 hover:bg-white hover:text-neutral-900 border border-neutral-900/10"
+                    }`}
                 >
-                  {category}
+                  <ScrambleText text={category} duration={100} />
                 </button>
               );
             })}
@@ -187,7 +195,7 @@ export const Project = () => {
           ))}
         </div>
       </div>
-    </section>
+    </section >
   );
 };
 

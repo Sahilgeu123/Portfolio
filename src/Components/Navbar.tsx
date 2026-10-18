@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { ArrowUpRight, Menu, X } from "./Icons";
 import { portfolioData } from "../data/portfolioData";
-
+import ScrambleText from "./ScrambleText";
 export const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -18,11 +18,10 @@ export const Navbar = () => {
     <>
       <header className="fixed inset-x-0 top-4 z-50 flex justify-center px-4">
         <div
-          className={`flex w-full max-w-5xl items-center justify-between gap-3 rounded-full border px-3 py-2.5 transition-all duration-500 sm:px-4 ${
-            isScrolled
-              ? "border-neutral-900/10 bg-white/85 shadow-[0_20px_60px_-20px_rgba(17,17,17,0.2)] backdrop-blur-xl"
-              : "border-neutral-900/10 bg-white/70 backdrop-blur-md"
-          }`}
+          className={`flex w-full max-w-5xl items-center justify-between gap-3 rounded-full border px-3 py-2.5 transition-all duration-500 sm:px-4 ${isScrolled
+            ? "border-neutral-900/10 bg-white/85 shadow-[0_20px_60px_-20px_rgba(17,17,17,0.2)] backdrop-blur-xl"
+            : "border-neutral-900/10 bg-white/70 backdrop-blur-md"
+            }`}
         >
           {/* Brand Logo */}
           <a
@@ -33,7 +32,7 @@ export const Navbar = () => {
               <ArrowUpRight size={16} strokeWidth={2.4} />
             </span>
             <span className="font-display text-sm tracking-tight text-neutral-900">
-              SAHIL
+              <ScrambleText text="SAHIL" duration={500} />
             </span>
           </a>
 

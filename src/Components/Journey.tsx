@@ -2,7 +2,7 @@ import { useState } from "react";
 import { ArrowUpRight, GraduationCap, Code, Rocket, BookOpen } from "./Icons";
 import { portfolioData } from "../data/portfolioData";
 import ArchitecturalGrid from "./ArchitecturalGrid";
-
+import ScrollOpacity from "./ScrollOpacity"
 export const Journey = () => {
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
 
@@ -80,57 +80,58 @@ export const Journey = () => {
                 key={`${item.organization}-${index}`}
                 onMouseEnter={() => setHoveredIdx(index)}
                 onMouseLeave={() => setHoveredIdx(null)}
-                className={`group relative grid cursor-default grid-cols-1 gap-4 border-t border-white/12 py-10 transition-all duration-500 md:grid-cols-[1.2fr_2fr_auto] md:items-baseline md:gap-8 ${isHovered ? "border-white/40 bg-white/[0.02]" : "hover:border-white/30"
-                  }`}
               >
                 {/* Timeline Anchor Node */}
-                <span className="absolute -top-[5px] left-0 flex h-2.5 w-2.5 items-center justify-center">
-                  <span className="absolute h-2.5 w-2.5 rounded-full bg-white/25 transition-all duration-500 group-hover:bg-[#c9c2b4]" />
-                  <span className="absolute h-1 w-1 rounded-full bg-white transition-colors duration-500 group-hover:bg-[#111111]" />
-                </span>
-
-                {/* Left: Period & Tag */}
-                <div className="flex flex-col gap-2.5">
-                  <p className="font-grotesk text-sm uppercase tracking-[0.2em] text-white/50 transition-colors duration-500 group-hover:text-[#c9c2b4]">
-                    {item.period}
-                  </p>
-                  <span className="inline-flex w-fit items-center gap-1.5 rounded-full border border-white/15 px-3 py-1 font-grotesk text-[10px] uppercase tracking-[0.18em] text-white/60">
-                    {getIcon(item.kind)}
-                    {item.kind}
+                <ScrollOpacity className={`py-10 group relative grid cursor-default grid-cols-1 gap-4 border-t border-white/12  transition-all duration-500 md:grid-cols-[1.2fr_2fr_auto] md:items-baseline md:gap-8 ${isHovered ? "border-white/40 bg-white/[0.02]" : "hover:border-white/30"
+                  }`} startOpacity={0.5} endOpacity={1} >
+                  <span className="absolute -top-[5px] left-0 flex h-2.5 w-2.5 items-center justify-center">
+                    <span className="absolute h-2.5 w-2.5 rounded-full bg-white/25 transition-all duration-500 group-hover:bg-[#c9c2b4]" />
+                    <span className="absolute h-1 w-1 rounded-full bg-white transition-colors duration-500 group-hover:bg-[#111111]" />
                   </span>
-                </div>
 
-                {/* Center: Details */}
-                <div>
-                  <h3 className="font-display text-2xl tracking-tight text-white transition-colors duration-500 group-hover:text-[#c9c2b4] sm:text-3xl">
-                    {item.organization}
-                  </h3>
-                  <p className="mt-1.5 font-grotesk text-sm font-medium tracking-wide text-white/70">
-                    {item.role}
-                  </p>
-                  <p className="mt-4 max-w-xl text-sm leading-relaxed text-white/60">
-                    {item.summary}
-                  </p>
-
-                  {/* Highlights */}
-                  <div className="mt-4 flex flex-wrap gap-2">
-                    {item.highlights.map((highlight) => (
-                      <span
-                        key={highlight}
-                        className="rounded-full border border-white/10 bg-white/5 px-3 py-1 font-grotesk text-[11px] text-white/60"
-                      >
-                        {highlight}
-                      </span>
-                    ))}
+                  {/* Left: Period & Tag */}
+                  <div className="flex flex-col gap-2.5">
+                    <p className="font-grotesk text-sm uppercase tracking-[0.2em] text-white/50 transition-colors duration-500 group-hover:text-[#c9c2b4]">
+                      {item.period}
+                    </p>
+                    <span className="inline-flex w-fit items-center gap-1.5 rounded-full border border-white/15 px-3 py-1 font-grotesk text-[10px] uppercase tracking-[0.18em] text-white/60">
+                      {getIcon(item.kind)}
+                      {item.kind}
+                    </span>
                   </div>
-                </div>
 
-                {/* Right: Interactive Arrow */}
-                <div className="flex items-center justify-start md:justify-end">
-                  <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-white/15 text-white/60 transition-all duration-500 group-hover:rotate-45 group-hover:border-[#c9c2b4] group-hover:text-[#c9c2b4]">
-                    <ArrowUpRight size={18} />
-                  </span>
-                </div>
+                  {/* Center: Details */}
+                  <div>
+                    <h3 className="font-display text-2xl tracking-tight text-white transition-colors duration-500 group-hover:text-[#c9c2b4] sm:text-3xl">
+                      {item.organization}
+                    </h3>
+                    <p className="mt-1.5 font-grotesk text-sm font-medium tracking-wide text-white/70">
+                      {item.role}
+                    </p>
+                    <p className="mt-4 max-w-xl text-sm leading-relaxed text-white/60">
+                      {item.summary}
+                    </p>
+
+                    {/* Highlights */}
+                    <div className="mt-4 flex flex-wrap gap-2">
+                      {item.highlights.map((highlight) => (
+                        <span
+                          key={highlight}
+                          className="rounded-full border border-white/10 bg-white/5 px-3 py-1 font-grotesk text-[11px] text-white/60"
+                        >
+                          {highlight}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Right: Interactive Arrow */}
+                  <div className="flex items-center justify-start md:justify-end">
+                    <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-white/15 text-white/60 transition-all duration-500 group-hover:rotate-45 group-hover:border-[#c9c2b4] group-hover:text-[#c9c2b4]">
+                      <ArrowUpRight size={18} />
+                    </span>
+                  </div>
+                </ScrollOpacity>
               </div>
             );
           })}
