@@ -1,10 +1,11 @@
 
-import { useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 interface ScrambleTextProps {
   text: string;
   duration?: number;
   className?: string;
+  replayKey?: number;
 }
 
 const CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%&";
@@ -13,15 +14,15 @@ export default function ScrambleText({
   text,
   duration = 800,
   className = "",
+  replayKey,
 }: ScrambleTextProps) {
   const [displayText, setDisplayText] = useState(text);
-  const [isAnimating, setIsAnimating] = useState(false);
+  const isAnimatingRef = useRef(false);
+  const animationFrameRef = useRef<number | null>(null);
 
-  const handleMouseEnter = () => {
-    if (isAnimating) return;
-
-    setIsAnimating(true);
-
+  const startAnimation = useCallback(() => {
+    if (isAnimatingRef.current) return;
+    isAnimatingRef.current = true;
     const startTime = performance.now();
 
     const animate = (timestamp: number) => {
@@ -48,15 +49,29 @@ export default function ScrambleText({
       setDisplayText(scrambled);
 
       if (progress < 1) {
-        requestAnimationFrame(animate);
+        animationFrameRef.current = requestAnimationFrame(animate);
       } else {
         setDisplayText(text);
-        setIsAnimating(false);
+        isAnimatingRef.current = false;
+        animationFrameRef.current = null;
       }
     };
 
-    requestAnimationFrame(animate);
-  };
+    animationFrameRef.current = requestAnimationFrame(animate);
+  }, [duration, text]);
+
+  useEffect(() => {
+    if (replayKey !== undefined && replayKey > 0) startAnimation();
+  }, [replayKey, startAnimation]);
+
+  useEffect(() => () => {
+    if (animationFrameRef.current !== null) {
+      cancelAnimationFrame(animationFrameRef.current);
+    }
+    isAnimatingRef.current = false;
+  }, []);
+
+  const handleMouseEnter = () => startAnimation();
 
   return (
     <span

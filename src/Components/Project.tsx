@@ -2,9 +2,10 @@ import { useState } from "react";
 import { ArrowUpRight, ExternalLink, Github } from "./Icons";
 import { portfolioData } from "../data/portfolioData";
 import ArchitecturalGrid from "./ArchitecturalGrid";
-import ScrambleText from "./ScrambleText";
-import WordReveal from "./WordReveal";
-import ScrollOpacity from "./ScrollOpacity";
+import ScrambleText from "./TextAnimation/ScrambleText";
+import WordReveal from "./TextAnimation/WordReveal";
+import ScrollOpacity from "./TextAnimation/ScrollOpacity";
+import { ReplayScrambleText } from "./TextAnimation/ReplayScrambleText";
 export const Project = () => {
   const [activeCategory, setActiveCategory] = useState<string>("All");
 
@@ -24,12 +25,13 @@ export const Project = () => {
       <ArchitecturalGrid variant="light" />
 
       {/* Giant Outline Watermark Typography */}
-      <p
+      <ReplayScrambleText
         aria-hidden="true"
         className="text-outline pointer-events-none absolute -top-4 right-0 z-0 select-none font-display text-[16vw] leading-none lg:text-[11vw]"
-      >
-        PROJECTS
-      </p>
+      
+        text="PROJECTS"
+        duration={600}
+      />
       <div className="relative z-10 mx-auto max-w-7xl">
         {/* Section Heading */}
         <ScrollOpacity startOpacity={0.2} endOpacity={1}>
@@ -39,9 +41,10 @@ export const Project = () => {
               <span className="font-grotesk text-xs font-medium uppercase tracking-[0.25em] text-neutral-500">
                 /02
               </span>
-              <span className="font-grotesk text-xs font-medium uppercase tracking-[0.25em] text-neutral-700">
-                Selected Work
-              </span>
+              <ReplayScrambleText className="font-grotesk text-xs font-medium uppercase tracking-[0.25em] text-neutral-700"
+                text="Selected Work"
+                duration={600}
+              />
               <span className="h-px flex-1 bg-neutral-900/15" />
             </div>
             <WordReveal className="font-display mt-6 text-4xl leading-[0.95] text-neutral-900 sm:text-5xl lg:text-6xl">

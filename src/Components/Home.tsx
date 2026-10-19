@@ -4,8 +4,8 @@ import { ArrowUpRight, ArrowDown, Compass, Terminal } from "./Icons";
 import { portfolioData } from "../data/portfolioData";
 import TopologyMesh from "./TopologyMesh";
 import ArchitecturalGrid from "./ArchitecturalGrid";
-import ScrambleText from "./ScrambleText";
-
+import ScrambleText from "./TextAnimation/ScrambleText";
+import { ReplayScrambleText } from "./TextAnimation/ReplayScrambleText";
 export const Home = () => {
   const heroRef = useRef<HTMLDivElement | null>(null);
   const headlineRef = useRef<HTMLHeadingElement | null>(null);
@@ -206,7 +206,7 @@ export const Home = () => {
                   rel="noopener noreferrer"
                   className="group inline-flex items-center gap-1 font-grotesk text-xs font-medium text-neutral-700 transition-colors hover:text-neutral-900"
                 >
-                  <span><ScrambleText text={social.label} duration={200} /></span>
+                  <span><ReplayScrambleText className="" text={social.label} duration={400} /></span>
                   <ArrowUpRight
                     size={11}
                     className="opacity-40 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:opacity-100"
@@ -233,7 +233,7 @@ export const Home = () => {
                     (e.target as HTMLElement).style.display = "none";
                   }}
                 />
-                
+
                 {/* Floating Top Tag */}
                 <div className="absolute top-3 left-3 flex items-center gap-1.5 rounded-full bg-neutral-900/75 px-3 py-1 font-grotesk text-[10px] uppercase tracking-[0.15em] text-white backdrop-blur">
                   <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-ping" />

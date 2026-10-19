@@ -1,6 +1,6 @@
 import { ArrowUpRight, ArrowUp } from "./Icons";
 import { portfolioData } from "../data/portfolioData";
-import ScrambleText from "./ScrambleText";
+import { ReplayScrambleText } from "./TextAnimation/ReplayScrambleText";
 
 export const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -20,9 +20,7 @@ export const Footer = () => {
               <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white text-neutral-900">
                 <ArrowUpRight size={17} strokeWidth={2.4} />
               </span>
-              <span className="font-display text-xl tracking-tight text-white">
-                <ScrambleText text="SAHIL ALAM" duration={300}/>
-              </span>
+              <ReplayScrambleText text="SAHIL ALAM" className="font-display text-xl tracking-tight text-white" duration={500} />
             </a>
 
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-white/55">
@@ -52,14 +50,14 @@ export const Footer = () => {
               Navigate
             </p>
             <ul className="mt-5 space-y-3">
-              {portfolioData.navLinks.map((link) => (
+              {portfolioData.navLinks.map((link,index) => (
                 <li key={link.label}>
                   <a
                     href={link.href}
                     className="group flex items-center gap-2 text-sm text-white/70 transition-colors hover:text-white"
                   >
                     <span className="h-px w-0 bg-[#c9c2b4] transition-all duration-300 group-hover:w-4" />
-                    <span>{link.label}</span>
+                    <ReplayScrambleText className="" text={link.label} duration={200 +index*200}/>
                   </a>
                 </li>
               ))}

@@ -2,9 +2,9 @@ import { useState } from "react";
 import { ArrowUpRight, Mail, Copy, Check, Send, MapPin } from "./Icons";
 import { portfolioData } from "../data/portfolioData";
 import ArchitecturalGrid from "./ArchitecturalGrid";
-import CharReveal from "./CharReveal";
-import TextReveal from "./TextReveal";
-import ScrollOpacity from "./ScrollOpacity"
+import CharReveal from "./TextAnimation/CharReveal";
+import TextReveal from "./TextAnimation/TextReveal";
+import ScrollOpacity from "./TextAnimation/ScrollOpacity"
 export const Contact = () => {
   const [copied, setCopied] = useState(false);
   const [submitted, setSubmitted] = useState(false);

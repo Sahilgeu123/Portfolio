@@ -2,8 +2,9 @@ import { useState } from "react";
 import { Plus, Minus, CheckCircle2, Sparkles, Layers, Cpu, Globe } from "./Icons";
 import { portfolioData } from "../data/portfolioData";
 import ArchitecturalGrid from "./ArchitecturalGrid";
-import ScrollOpacity from "./ScrollOpacity";
-import CharReveal from "./CharReveal";
+import ScrollOpacity from "./TextAnimation/ScrollOpacity";
+import CharReveal from "./TextAnimation/CharReveal";
+import { ReplayScrambleText } from "./TextAnimation/ReplayScrambleText";
 
 export const Services = () => {
   const [activeService, setActiveService] = useState<number>(0);
@@ -19,13 +20,13 @@ export const Services = () => {
       <ArchitecturalGrid variant="light" />
 
       {/* Giant Outline Watermark Typography */}
-      <p
+      <ReplayScrambleText
         aria-hidden="true"
         className="text-outline pointer-events-none absolute -top-4 right-0 z-0 select-none font-display text-[16vw] leading-none lg:text-[11vw]"
-      >
-        SERVICES
-      </p>
-
+      
+        text="SERVICES"
+        duration={600}
+      />
       <div className="relative z-10 mx-auto max-w-7xl">
         {/* Section Heading */}
         <div>

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { ArrowUpRight, Menu, X } from "./Icons";
 import { portfolioData } from "../data/portfolioData";
-import ScrambleText from "./ScrambleText";
+import ScrambleText from "./TextAnimation/ScrambleText";
 export const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);

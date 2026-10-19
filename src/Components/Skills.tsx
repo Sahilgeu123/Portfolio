@@ -1,10 +1,72 @@
+import { useEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { portfolioData } from "../data/portfolioData";
 import ArchitecturalGrid from "./ArchitecturalGrid";
-import CharReveal from "./CharReveal";
-import ScrollOpacity from "./ScrollOpacity";
-import TextReveal from "./TextReveal";
+import CharReveal from "./TextAnimation/CharReveal";
+import ScrollOpacity from "./TextAnimation/ScrollOpacity";
+import TextReveal from "./TextAnimation/TextReveal";
+import { ReplayScrambleText } from "./TextAnimation/ReplayScrambleText";
+
+gsap.registerPlugin(ScrollTrigger);
 
 export const Skills = () => {
+  const cardsRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const cards = cardsRef.current?.querySelectorAll<HTMLElement>("[data-skill-card]");
+    if (!cards?.length || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const context = gsap.context(() => {
+      cards.forEach((card, index) => {
+        const disableCardTransition = () => { card.style.transition = "none"; };
+        const restoreCardTransition = () => { card.style.removeProperty("transition"); };
+        const outwardTilt = [-10, -4, 4, 10][index % 4];
+        const outwardRoll = [-3.5, -1.2, 1.2, 3.5][index % 4];
+
+        gsap.fromTo(
+          card,
+          {
+            autoAlpha: 0.16,
+            y: 42,
+            scale: 0.97,
+            z: -90,
+            rotationX: 15,
+            rotationY: outwardTilt,
+            rotationZ: outwardRoll,
+            transformPerspective: 1100,
+            transformOrigin: "50% 100%",
+          },
+          {
+            autoAlpha: 1,
+            y: 0,
+            z: 0,
+            scale: 1,
+            rotationX: 0,
+            rotationY: 0,
+            rotationZ: 0,
+            ease: "none",
+            scrollTrigger: {
+              trigger: card,
+              start: () => `top ${90 - index * 4}%`,
+              end: () => `top ${48 - index * 4}%`,
+              scrub: 0.55,
+              onEnter: disableCardTransition,
+              onEnterBack: disableCardTransition,
+              onLeave: restoreCardTransition,
+              onLeaveBack: restoreCardTransition,
+            },
+          },
+        );
+      });
+    }, cardsRef);
+
+    return () => {
+      context.revert();
+      cards.forEach((card) => card.style.removeProperty("transition"));
+    };
+  }, []);
+
   return (
     <section
       id="skills"
@@ -14,12 +76,13 @@ export const Skills = () => {
       <ArchitecturalGrid variant="light" />
 
       {/* Giant Outline Watermark Typography */}
-      <p
+      <ReplayScrambleText
         aria-hidden="true"
         className="text-outline pointer-events-none absolute -top-4 right-0 z-0 select-none font-display text-[16vw] leading-none lg:text-[11vw]"
-      >
-        SKILLS
-      </p>
+      
+        text="SKILLS"
+        duration={600}
+      />
 
       <div className="relative z-10 mx-auto max-w-7xl">
         {/* Section Heading */}
@@ -29,9 +92,10 @@ export const Skills = () => {
               <span className="font-grotesk text-xs font-medium uppercase tracking-[0.25em] text-neutral-500">
                 /04
               </span>
-              <span className="font-grotesk text-xs font-medium uppercase tracking-[0.25em] text-neutral-700">
-                Skills
-              </span>
+              <ReplayScrambleText className="font-grotesk text-xs font-medium uppercase tracking-[0.25em] text-neutral-700"
+                text="Skills"
+                duration={600}
+              />
               <span className="h-px flex-1 bg-neutral-900/15" />
             </div>
 
@@ -63,10 +127,11 @@ export const Skills = () => {
         </div>
 
         {/* 4 Bento Category Cards */}
-        <div className="mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div ref={cardsRef} className="mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {portfolioData.skillCategories.map((category) => (
             <div
               key={category.number}
+              data-skill-card
               className="group relative z-10 flex flex-col justify-between rounded-3xl border border-neutral-900/10 bg-white/60 p-7 backdrop-blur transition-all duration-500 hover:border-neutral-900/25 hover:bg-white hover:shadow-xl"
             >
               <div>

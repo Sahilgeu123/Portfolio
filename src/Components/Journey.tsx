@@ -1,8 +1,12 @@
-import { useState } from "react";
+import {  useState } from "react";
 import { ArrowUpRight, GraduationCap, Code, Rocket, BookOpen } from "./Icons";
 import { portfolioData } from "../data/portfolioData";
 import ArchitecturalGrid from "./ArchitecturalGrid";
-import ScrollOpacity from "./ScrollOpacity"
+import ScrollOpacity from "./TextAnimation/ScrollOpacity"
+import { ReplayScrambleText } from "./TextAnimation/ReplayScrambleText";
+
+
+
 export const Journey = () => {
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
 
@@ -31,12 +35,13 @@ export const Journey = () => {
       <div className="pointer-events-none absolute inset-x-0 top-0 z-0 h-32 bg-gradient-to-b from-[#f4f4f0] to-transparent opacity-10" />
 
       {/* Giant Outline Watermark Typography */}
-      <p
+      <ReplayScrambleText
         aria-hidden="true"
         className="text-outline-dark pointer-events-none absolute -top-6 right-0 z-0 select-none font-display text-[16vw] leading-none lg:text-[11vw]"
-      >
-        JOURNEY
-      </p>
+      
+        text={"JOURNEY"}
+        duration={600}
+      />
 
       <div className="relative z-10 mx-auto max-w-7xl">
         {/* Section Heading */}
@@ -45,9 +50,10 @@ export const Journey = () => {
             <span className="font-grotesk text-xs font-medium uppercase tracking-[0.25em] text-white/50">
               /05
             </span>
-            <span className="font-grotesk text-xs font-medium uppercase tracking-[0.25em] text-white/70">
-              Journey & Milestones
-            </span>
+            <ReplayScrambleText className="font-grotesk text-xs font-medium uppercase tracking-[0.25em] text-white/70"
+              text="Journey & Milestones"
+              duration={400}
+            />
             <span className="h-px flex-1 bg-white/15" />
           </div>
 
@@ -59,14 +65,12 @@ export const Journey = () => {
         </div>
 
         {/* Experience Counter Chip */}
-        <div className="mt-12 inline-flex items-end gap-3 rounded-3xl border border-white/15 bg-white/5 px-7 py-5 backdrop-blur-md">
-          <span className="font-display text-5xl leading-none text-[#c9c2b4] sm:text-6xl">
-            {portfolioData.profile.experienceYears}
-          </span>
-          <span className="mb-1 font-grotesk text-xs uppercase tracking-[0.22em] text-white/60">
-            Years of
+        <div className="mt-12 inline-flex items-end rounded-3xl border border-white/15 bg-white/5 px-7 py-5 backdrop-blur-md">
+          <ReplayScrambleText text={portfolioData.profile.experienceYears} className="font-display text-5xl leading-none text-[#c9c2b4] sm:text-6xl" duration={600} />
+          <span className="mb-1  font-grotesk text-xs uppercase tracking-[0.22em] text-white/60">
+
             <br />
-            development
+
           </span>
         </div>
 
