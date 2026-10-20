@@ -13,13 +13,11 @@ const MOBILE_CHARACTER_DENSITY = 3.8;
 const MAX_COLUMNS = 130;
 const MOBILE_MAX_COLUMNS = 90;
 
-const VORTEX_RADIUS = 3;
-const VORTEX_ROTATION_SPEED = 2.7;
-const VORTEX_GRAVITY = 1.15;
-const VORTEX_TURBULENCE = 0.5;
-const POINTER_SPRING_STIFFNESS = 78;
-const POINTER_SPRING_DAMPING = 18;
-const POINTER_FADE_SPEED = 8;
+const REPEL_RADIUS = 72;
+const MOBILE_REPEL_RADIUS = 52;
+const POINTER_SPRING_STIFFNESS = 140;
+const POINTER_SPRING_DAMPING = 20;
+const POINTER_FADE_SPEED = 7;
 const BACKGROUND = "#f4f4f0";
 const CHARACTER_COLOR = "#171717";
 
@@ -222,51 +220,58 @@ export default function AsciiPortrait({ src, name }: AsciiPortraitProps) {
       }
 
       const { columns, rows, cellWidth, cellHeight, glyphs } = grid;
-      const pointerColumn = pointerX / cellWidth;
-      const pointerRow = pointerY / cellHeight;
       context.font = `${cellHeight}px monospace`;
       context.textAlign = "center";
       context.textBaseline = "middle";
       context.fillStyle = CHARACTER_COLOR;
 
-      for (let row = 0; row < rows; row += 1) {
-        const y = row + 0.5;
-        for (let column = 0; column < columns; column += 1) {
-          const x = column + 0.5;
-          let displacedX = column;
-          let displacedY = row;
-          // Inverse-map each cell through a localized polar vortex. This keeps
-          // the source portrait intact while its individual glyphs flow around
-          // the cursor; outside the falloff, the original cell is sampled.
-          if (pointerInfluence > 0.005) {
-            const px = x - pointerColumn;
-            const py = (y - pointerRow) * 0.86;
-            const distance = Math.sqrt(px * px + py * py);
-            const angle = Math.atan2(py, px);
-            const falloff = Math.exp(-(distance * distance) / (2 * VORTEX_RADIUS * VORTEX_RADIUS))
-              * pointerInfluence;
-            const rotation = elapsed * VORTEX_ROTATION_SPEED
-              / (0.8 + distance * 0.22) * falloff;
-            const turbulence = Math.sin(angle * 3 + elapsed * 1.7 + distance * 0.55)
-              * VORTEX_TURBULENCE * falloff;
-            const sourceRadius = distance + VORTEX_GRAVITY * falloff;
-            const sourceAngle = angle - rotation - turbulence;
-            displacedX = pointerColumn + Math.cos(sourceAngle) * sourceRadius;
-            displacedY = pointerRow + Math.sin(sourceAngle) * sourceRadius / 0.86;
-          }
+      const isMobile = window.matchMedia("(max-width: 640px)").matches;
+      const repelRadius = isMobile ? MOBILE_REPEL_RADIUS : REPEL_RADIUS;
+      const repelRadiusSq = repelRadius * repelRadius;
+      const outerRadius = repelRadius * 1.35;
+      const outerRadiusSq = outerRadius * outerRadius;
 
-          const sampleColumn = Math.max(0, Math.min(columns - 1, Math.round(displacedX)));
-          const sampleRow = Math.max(0, Math.min(rows - 1, Math.round(displacedY)));
-          const sampleIndex = sampleRow * columns + sampleColumn;
+      for (let row = 0; row < rows; row += 1) {
+        const homeY = (row + 0.5) * cellHeight;
+        for (let column = 0; column < columns; column += 1) {
+          const sampleIndex = row * columns + column;
           const baseGlyph = glyphs[sampleIndex];
 
-          if (baseGlyph < GLYPHS.length - 1) {
-            context.fillText(
-              GLYPHS[baseGlyph],
-              x * cellWidth,
-              y * cellHeight
-            );
+          // Skip space / empty background glyphs
+          if (baseGlyph >= GLYPHS.length - 1) continue;
+
+          const homeX = (column + 0.5) * cellWidth;
+          let drawX = homeX;
+          let drawY = homeY;
+
+          if (pointerInfluence > 0.001) {
+            const dx = homeX - pointerX;
+            const dy = homeY - pointerY;
+            const distSq = dx * dx + dy * dy;
+
+            if (distSq < repelRadiusSq) {
+              const dist = Math.sqrt(distSq);
+              const angle = dist > 0.0001 ? Math.atan2(dy, dx) : ((column * 13 + row * 7) % 6.28);
+              const norm = dist / repelRadius; // 0 at cursor, 1 at edge
+              // Push characters outward to maintain distance from the cursor
+              const pushDistance = (repelRadius - dist + (1 - norm) * 4) * pointerInfluence;
+              drawX = homeX + Math.cos(angle) * pushDistance;
+              drawY = homeY + Math.sin(angle) * pushDistance;
+            } else if (distSq < outerRadiusSq) {
+              const dist = Math.sqrt(distSq);
+              const angle = Math.atan2(dy, dx);
+              const outerNorm = (dist - repelRadius) / (outerRadius - repelRadius); // 0 to 1
+              const pushDistance = Math.sin((1 - outerNorm) * Math.PI) * 6 * pointerInfluence;
+              drawX = homeX + Math.cos(angle) * pushDistance;
+              drawY = homeY + Math.sin(angle) * pushDistance;
+            }
           }
+
+          context.fillText(
+            GLYPHS[baseGlyph],
+            drawX,
+            drawY
+          );
         }
       }
 
@@ -304,7 +309,18 @@ export default function AsciiPortrait({ src, name }: AsciiPortraitProps) {
       pointerTargetInfluence = 1;
       scheduleRender();
     };
-    const onPointerEnter = () => {
+    const onPointerEnter = (event: PointerEvent) => {
+      const bounds = canvas.getBoundingClientRect();
+      const newX = event.clientX - bounds.left;
+      const newY = event.clientY - bounds.top;
+      if (pointerInfluence < 0.01) {
+        pointerX = newX;
+        pointerY = newY;
+        pointerVelocityX = 0;
+        pointerVelocityY = 0;
+      }
+      pointerTargetX = newX;
+      pointerTargetY = newY;
       pointerTargetInfluence = 1;
       scheduleRender();
     };

@@ -5,7 +5,7 @@ type PanelOrigin = { left: number; top: number; width: number; height: number };
 export function useButtonPopoverMotion(
   origin: PanelOrigin,
   onClose: () => void,
-  endRadius: string,
+  _endRadius?: string,
 ) {
   const backdropRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLElement>(null);
@@ -37,10 +37,12 @@ export function useButtonPopoverMotion(
       if (!reduceMotion) {
         openAnimation = panel.animate(
           [
-            { transform: sourceTransformRef.current, borderRadius: "9999px", opacity: 0.7 },
-            { transform: "none", borderRadius: endRadius, opacity: 1 },
+            { transform: sourceTransformRef.current, opacity: 0 },
+            { opacity: 0.3, offset: 0.32 },
+            { opacity: 0.75, offset: 0.72 },
+            { transform: "none", opacity: 1 },
           ],
-          { duration: 720, easing: "cubic-bezier(0.16, 1, 0.3, 1)", fill: "both" },
+          { duration: 620, easing: "cubic-bezier(0.16, 1, 0.3, 1)", fill: "both" },
         );
         backdrop.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 320, easing: "ease-out", fill: "both" });
       }
@@ -50,7 +52,7 @@ export function useButtonPopoverMotion(
       openAnimation?.cancel();
       document.body.style.overflow = previousOverflow;
     };
-  }, [origin, endRadius]);
+  }, [origin]);
 
   const close = useCallback(() => {
     if (closingRef.current) return;
@@ -65,12 +67,13 @@ export function useButtonPopoverMotion(
 
     const exit = panel.animate(
       [
-        { transform: "none", borderRadius: endRadius, opacity: 1 },
-        { transform: sourceTransformRef.current, borderRadius: "9999px", opacity: 0.7 },
+        { transform: "none", opacity: 1 },
+        { opacity: 0.3, offset: 0.65 },
+        { transform: sourceTransformRef.current, opacity: 0 },
       ],
-      { duration: 430, easing: "cubic-bezier(0.7, 0, 0.84, 0)", fill: "both" },
+      { duration: 380, easing: "cubic-bezier(0.7, 0, 0.84, 0)", fill: "both" },
     );
-    backdrop.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 300, easing: "ease-in", fill: "both" });
+    backdrop.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 280, easing: "ease-in", fill: "both" });
     let didClose = false;
     const finishClose = () => {
       if (didClose) return;
@@ -78,8 +81,8 @@ export function useButtonPopoverMotion(
       onClose();
     };
     exit.onfinish = finishClose;
-    window.setTimeout(finishClose, 500);
-  }, [endRadius, onClose]);
+    window.setTimeout(finishClose, 450);
+  }, [onClose]);
 
   return { backdropRef, panelRef, close };
 }
