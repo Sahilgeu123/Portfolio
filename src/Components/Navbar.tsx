@@ -2,7 +2,9 @@ import { useState, useEffect } from "react";
 import { ArrowUpRight, Menu, X } from "./Icons";
 import { portfolioData } from "../data/portfolioData";
 import ScrambleText from "./TextAnimation/ScrambleText";
-export const Navbar = () => {
+type PanelOrigin = { left: number; top: number; width: number; height: number };
+
+export const Navbar = ({ onOpenPanel }: { onOpenPanel: (panel: "terminal" | "ai", origin: PanelOrigin) => void }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -82,6 +84,27 @@ export const Navbar = () => {
             {mobileMenuOpen ? <X size={18} /> : <Menu size={18} />}
           </button>
         </div>
+        {/*Terminal and AI*/}
+        <div className={`fixed bottom-0 tracking-wider flex gap-10 px-6 py-3 font-grotesk border backdrop-blur-2xl  mb-2 rounded-full ${isScrolled
+          ? "border-neutral-900/10 bg-white/85 shadow-[0_20px_60px_-20px_rgba(17,17,17,0.2)] backdrop-blur-xl"
+          : "border-neutral-900/10 bg-white/70 backdrop-blur-md"
+          }`}>
+          <button onClick={(event) => {
+            const rect = event.currentTarget.getBoundingClientRect();
+            onOpenPanel("terminal", { left: rect.left, top: rect.top, width: rect.width, height: rect.height });
+          }} className="terminal group relative">
+            <ScrambleText className="" text="Terminal" duration={200} />
+
+            <span className="absolute inset-x-4 -bottom-px h-px origin-left scale-x-0 bg-neutral-900 transition-transform duration-300 group-hover:scale-x-100" />
+          </button>
+          <button onClick={(event) => {
+            const rect = event.currentTarget.getBoundingClientRect();
+            onOpenPanel("ai", { left: rect.left, top: rect.top, width: rect.width, height: rect.height });
+          }} className="agent group relative">
+            <ScrambleText className="" text="Ask Me" duration={200} />
+            <span className="absolute inset-x-4 -bottom-px h-px origin-left scale-x-0 bg-neutral-900 transition-transform duration-300 group-hover:scale-x-100" />
+          </button>
+        </div>
       </header>
 
       {/* Mobile Drawer */}
@@ -119,6 +142,8 @@ export const Navbar = () => {
           </div>
         </div>
       )}
+
+
     </>
   );
 };

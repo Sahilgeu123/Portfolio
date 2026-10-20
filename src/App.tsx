@@ -10,9 +10,14 @@ import Contact from "./Components/Contact";
 import Footer from "./Components/Footer";
 import CustomCursor from "./Components/CustomCursor";
 import Preloader from "./Components/Preloader";
+import Terminal from "./Components/Terminal";
+import AgentAI from "./Components/AgentAI";
+
+type PanelOrigin = { left: number; top: number; width: number; height: number };
 
 function App() {
   const [preloaderFinished, setPreloaderFinished] = useState(false);
+  const [activePanel, setActivePanel] = useState<{ name: "terminal" | "ai"; origin: PanelOrigin } | null>(null);
 
   return (
     <div className="relative min-h-screen bg-[#f4f4f0] text-neutral-900 selection:bg-neutral-900 selection:text-white">
@@ -31,7 +36,9 @@ function App() {
       />
 
       {/* Navigation Header */}
-      <Navbar />
+      <Navbar onOpenPanel={(name, origin) => setActivePanel({ name, origin })} />
+      {activePanel?.name === "terminal" && <Terminal origin={activePanel.origin} onClose={() => setActivePanel(null)} />}
+      {activePanel?.name === "ai" && <AgentAI origin={activePanel.origin} onClose={() => setActivePanel(null)} />}
 
       {/* Main Experience Flow */}
       <main className="relative z-10 flex flex-col">

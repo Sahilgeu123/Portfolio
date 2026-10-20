@@ -28,6 +28,9 @@ export const TopologyMesh = ({
     if (!ctx) return;
 
     let animationFrameId: number;
+    let isVisible = true;
+    let prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let lastFrameTime = 0;
     let width = (canvas.width = canvas.parentElement?.clientWidth || window.innerWidth);
     let height = (canvas.height = canvas.parentElement?.clientHeight || window.innerHeight);
 
@@ -54,6 +57,7 @@ export const TopologyMesh = ({
       const clientY = e.clientY - rect.top;
       mouseRef.current.targetX = clientX / width;
       mouseRef.current.targetY = clientY / height;
+      if (prefersReducedMotion && !animationFrameId) animationFrameId = requestAnimationFrame(render);
     };
 
     window.addEventListener("mousemove", handleMouseMove, { passive: true });
@@ -63,7 +67,14 @@ export const TopologyMesh = ({
     const rows = 36; // resolution Y
     let time = 0;
 
-    const render = () => {
+    const render = (timestamp: number) => {
+      animationFrameId = 0;
+      if (!isVisible) return;
+      if (!prefersReducedMotion && timestamp - lastFrameTime < 1000 / 30) {
+        animationFrameId = requestAnimationFrame(render);
+        return;
+      }
+      lastFrameTime = timestamp;
       time += 0.015;
 
       // Smooth mouse lerp
@@ -212,13 +223,39 @@ export const TopologyMesh = ({
         ctx.stroke();
       }
 
-      animationFrameId = requestAnimationFrame(render);
+      if (!prefersReducedMotion && isVisible) animationFrameId = requestAnimationFrame(render);
     };
 
-    animationFrameId = requestAnimationFrame(render);
+    const scheduleRender = () => {
+      if (isVisible && !animationFrameId) animationFrameId = requestAnimationFrame(render);
+    };
+
+    const intersectionObserver = new IntersectionObserver(([entry]) => {
+      isVisible = entry.isIntersecting;
+      if (isVisible) scheduleRender();
+      else if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+        animationFrameId = 0;
+      }
+    });
+    intersectionObserver.observe(canvas);
+
+    const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const handleMotionPreference = () => {
+      prefersReducedMotion = motionPreference.matches;
+      if (prefersReducedMotion && animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+        animationFrameId = 0;
+      }
+      scheduleRender();
+    };
+    motionPreference.addEventListener("change", handleMotionPreference);
+    scheduleRender();
 
     return () => {
       cancelAnimationFrame(animationFrameId);
+      intersectionObserver.disconnect();
+      motionPreference.removeEventListener("change", handleMotionPreference);
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("mousemove", handleMouseMove);
     };

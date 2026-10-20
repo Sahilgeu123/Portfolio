@@ -107,6 +107,7 @@ export const Project = () => {
                     alt={project.title}
                     className="h-full w-full object-cover object-top transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.06]"
                     loading="lazy"
+                    decoding="async"
                   />
 
                   {/* Gradient Hover Reveal Overlay */}

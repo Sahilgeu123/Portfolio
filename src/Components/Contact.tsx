@@ -57,11 +57,11 @@ export const Contact = () => {
         {/* Header Block */}
 
         <ScrollOpacity className="flex flex-col justify-center items-center text-center" startOpacity={0.2} endOpacity={1}>
-          <p className="flex items-center gap-2 font-grotesk text-xs uppercase tracking-[0.3em] text-white/50">
+          <div className="flex items-center gap-2 font-grotesk text-xs uppercase tracking-[0.3em] text-white/50">
             <span className="h-px w-8 bg-white/25" />
             <CharReveal>Have a project in mind?</CharReveal>
             <span className="h-px w-8 bg-white/25" />
-          </p>
+          </div>
 
           <CharReveal className="font-display mt-8 text-5xl leading-[0.92] tracking-tight text-white sm:text-7xl lg:text-8xl" delay={0.1}>
             HAVE A PROJECT
@@ -69,11 +69,11 @@ export const Contact = () => {
           <TextReveal className=" italic font-grotesk text-[#c9c2b4]">in mind?</TextReveal>
 
 
-          <p className=" mt-8 max-w-md text-base leading-relaxed text-white/65">
+          <div className=" mt-8 max-w-md text-base leading-relaxed text-white/65">
             <TextReveal>
               Let's turn your idea into a high-end digital experience. I'm currently accepting new projects, AI research collaborations, and engineering roles.
             </TextReveal>
-          </p>
+          </div>
 
           {/* Direct One-Click Copy & Email Action */}
           <TextReveal className="mt-10 flex flex-wrap items-center justify-center gap-4" delay={0.3}>

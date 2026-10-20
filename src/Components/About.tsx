@@ -54,46 +54,49 @@ export const About = () => {
             {/* Ambient backlight */}
             <div className="absolute -inset-5 rounded-[2.5rem] bg-linear-to-tr from-neutral-900/5 via-transparent to-neutral-900/10 blur-2xl" />
 
-            <div className="group relative aspect-[4/5] border border-gray-500/10 w-full overflow-hidden rounded-t-2xl transition-all duration-500 hover:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.15)]">
+            <div className="group relative aspect-[4/5] w-full overflow-hidden rounded-2xl border border-gray-500/10 transition-all duration-500 hover:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.15)]">
 
               {/* ASCII Portrait */}
-              <div className="absolute inset-0">
+              <div className="absolute inset-x-0 top-0 bottom-[80px]">
                 <AsciiPortrait
                   src="/portrait.png"
                   name={portfolioData.profile.name}
                 />
               </div>
 
-              {/* Bottom Frosted Glass Card Badge */}
+              {/* Bottom Card — Separate from Portrait */}
+              <div className="absolute bottom-0 inset-x-0 z-10 flex items-center justify-between rounded-b-2xl border border-black/40 bg-black/85 px-4 py-3 shadow-sm backdrop-blur-2xl">
 
-            </div>
-            <div className="absolute inset-x-0 -bottom-20 z-10 flex items-center justify-between rounded-b-2xl border border-black/40 bg-black/85 px-5 py-4 shadow-sm backdrop-blur-xl">
+                <div className="min-w-0">
+                  <ScrambleText
+                    text="SAHIL ALAM"
+                    className="font-display text-lg leading-none text-neutral-200"
+                    duration={200}
+                  />
 
-              <div className="min-w-0">
-                <ScrambleText
-                  text="SAHIL ALAM"
-                  className="font-display text-lg leading-none text-neutral-200"
-                  duration={200}
-                />
-                <br />
-                <ScrambleText
-                  text={portfolioData.profile.degree}
-                  className="mt-3 font-grotesk text-xs uppercase tracking-[0.18em] text-neutral-300"
-                  duration={500}
-                />
+                  <div className="mt-2">
+                    <ScrambleText
+                      text={portfolioData.profile.degree}
+                      className="font-grotesk text-xs uppercase tracking-[0.18em] text-neutral-300"
+                      duration={500}
+                    />
+                  </div>
+                </div>
+
+                <span className="ml-3 flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-neutral-200 transition-transform duration-500 group-hover:rotate-45">
+                  <ArrowUpRight href={portfolioData.profile.socials[1].url} size={17} color="black" />
+                </span>
+
               </div>
-
-              <span className="ml-4 flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-neutral-200 text-white transition-transform duration-500 group-hover:rotate-45">
-                <ArrowUpRight size={17} color="black" />
-              </span>
-
             </div>
+
+
           </div>
 
           {/* Right Column: Bio & Core Disciplines */}
           <div>
             <ScrollOpacity delay={0.1} startOpacity={0.2} endOpacity={1}>
-              <p className="font-display text-2xl leading-snug tracking-tight text-neutral-900 sm:text-3xl lg:text-4xl">
+              <div className="font-display text-2xl mt-20 md:mb-0 leading-snug tracking-tight text-neutral-900 sm:text-3xl lg:text-4xl">
                 <TextReveal>
                   I build responsive, user-focused interfaces
                 </TextReveal> <TextReveal >
@@ -103,7 +106,7 @@ export const About = () => {
                 <TextReveal >
                   tools — creating clean, polished </TextReveal>
                 <TextReveal > experiences that feel effortless on every</TextReveal><TextReveal>screen.</TextReveal>
-              </p>
+              </div>
             </ScrollOpacity>
 
             <ScrollOpacity delay={0.1} startOpacity={0.2} endOpacity={1}>
