@@ -12,11 +12,11 @@ const app = createApp({
 });
 
 const server = createServer(app);
-server.requestTimeout = 15_000;
-server.headersTimeout = 20_000;
+server.requestTimeout = 40_000;
+server.headersTimeout = 45_000;
 server.keepAliveTimeout = 5_000;
-// Allow the bounded Gemini request to time out and return a JSON error first.
-server.timeout = 25_000;
+// Allow the bounded Gemini requests to finish or time out and return a JSON error first.
+server.timeout = 50_000;
 
 server.listen(env.PORT, "0.0.0.0", () => {
   console.log(`Portfolio AI server listening on port ${env.PORT}.`);

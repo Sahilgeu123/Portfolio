@@ -53,9 +53,9 @@ export default function AgentAI({ origin, onClose }: { origin: PanelOrigin; onCl
       }, 12);
     }
     catch (error) {
-      const message = error instanceof TypeError
-        ? `AI server is unreachable. Here is a portfolio based answer instead:\n\n${localAnswer(question)}`
-        : error instanceof Error ? error.message : "Something went wrong. Please try again.";
+      const errMsg = error instanceof Error ? error.message : "Something went wrong. Please try again.";
+      const isRecoverable = error instanceof TypeError || errMsg.includes("unavailable") || errMsg.includes("failed") || errMsg.includes("502");
+      const message = isRecoverable ? localAnswer(question) : errMsg;
       setMessages(current => [...current, { role: "assistant", content: message }]);
     }
     finally { setThinking(false); }
