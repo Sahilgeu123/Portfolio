@@ -63,7 +63,7 @@ export const portfolioData = {
     satisfaction: "100%",
     available: true,
     statusText: "Available for New Projects",
-    resumeUrl: "/resume.pdf",
+    resumeUrl: "/Resume.pdf",
     photoUrl: "/face2.png",
     socials: [
       {

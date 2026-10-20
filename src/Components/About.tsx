@@ -192,6 +192,8 @@ export const About = () => {
               <a
                 href={portfolioData.profile.resumeUrl}
                 download
+                target="_blank"
+                rel="noopener noreferrer"
                 className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full bg-neutral-900 px-7 py-4 font-grotesk text-sm font-medium text-white transition-all duration-300 hover:shadow-lg"
               >
                 <span className="absolute inset-0 -translate-x-full bg-[#c9c2b4] transition-transform duration-500 ease-out group-hover:translate-x-0" />
