@@ -5,6 +5,7 @@ export const CustomCursor = () => {
   const [isHovered, setIsHovered] = useState(false);
   const [hoverLabel, setHoverLabel] = useState<string | null>(null);
   const [isVisible, setIsVisible] = useState(false);
+  const isVisibleRef = useRef(false);
 
   const cursorDotRef = useRef<HTMLDivElement | null>(null);
   const cursorRingRef = useRef<HTMLDivElement | null>(null);
@@ -27,7 +28,10 @@ export const CustomCursor = () => {
     const yRingTo = gsap.quickTo(ring, "y", { duration: 0.35, ease: "power3.out" });
 
     const handleMouseMove = (e: MouseEvent) => {
-      if (!isVisible) setIsVisible(true);
+      if (!isVisibleRef.current) {
+        isVisibleRef.current = true;
+        setIsVisible(true);
+      }
       xDotTo(e.clientX);
       yDotTo(e.clientY);
       xRingTo(e.clientX);
@@ -50,6 +54,7 @@ export const CustomCursor = () => {
     };
 
     const handleMouseLeave = () => {
+      isVisibleRef.current = false;
       setIsVisible(false);
     };
 
@@ -62,7 +67,7 @@ export const CustomCursor = () => {
       window.removeEventListener("mouseover", handleMouseOver);
       document.removeEventListener("mouseleave", handleMouseLeave);
     };
-  }, [isVisible]);
+  }, []);
 
   return (
     <>

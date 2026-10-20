@@ -89,12 +89,12 @@ export const Home = () => {
       </div>
 
       {/* Giant Outline Watermark Typography */}
-      <h1
+      <div
         aria-hidden="true"
         className="hero-watermark text-outline pointer-events-none absolute inset-x-0 top-1/2 z-0 -translate-y-1/2 select-none whitespace-nowrap text-center font-display text-[25vw] leading-none opacity-40 lg:text-[21vw]"
       >
         DEVELOPER
-      </h1>
+      </div>
 
       {/* Concentric Architectural Halo Ring */}
       <div
@@ -118,7 +118,7 @@ export const Home = () => {
         <div className="mt-8 grid grid-cols-1 items-center gap-12 lg:grid-cols-[1.2fr_0.8fr] lg:gap-16">
           {/* Left Column: Bold Titles & CTAs */}
           <div>
-            <h2
+            <h1
               ref={headlineRef}
               className="font-display text-5xl font-extrabold leading-[0.94] tracking-tight text-neutral-900 sm:text-7xl lg:text-8xl"
             >
@@ -144,7 +144,7 @@ export const Home = () => {
                   />
                 </svg>
               </span>
-            </h2>
+            </h1>
 
             <p
               ref={subtextRef}
