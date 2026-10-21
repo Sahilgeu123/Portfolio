@@ -7,17 +7,32 @@ type AsciiPortraitProps = {
 
 const GLYPHS = "@%#*+=-:. ";
 
-const CHARACTER_DENSITY = 3.25;
+const CHARACTER_DENSITY = 1.25;
 const MOBILE_CHARACTER_DENSITY = 3.8;
 
 const MAX_COLUMNS = 130;
 const MOBILE_MAX_COLUMNS = 90;
 
-const REPEL_RADIUS = 72;
-const MOBILE_REPEL_RADIUS = 52;
-const POINTER_SPRING_STIFFNESS = 140;
-const POINTER_SPRING_DAMPING = 20;
-const POINTER_FADE_SPEED = 7;
+const MIN_ORBIT_DISTANCE = 40;
+const MAX_ORBIT_DISTANCE = 60;
+const ORBIT_COUNT = 2;
+const ORBIT_SPEED = 6.15;
+const ORBIT_SPEED_RAMP_UP = 1.4;
+const ORBIT_SPEED_RAMP_DOWN = 2.4;
+const ORBIT_3D_TILT = 0.32;
+const ORBIT_3D_PERSPECTIVE = 0.14;
+const ORBIT_REPULSION_STRENGTH = 15;
+const ORBIT_PROGRESS_DAMPING = 18;
+const MIN_ORBIT_SPEED_RATIO = 0.25;
+const ORBIT_SPEED_VARIATION = 0.12;
+const ORBIT_LEFT_HORIZONTAL_SCALE = 0.6;
+const ORBIT_RIGHT_HORIZONTAL_SCALE = 0.4;
+const ORBIT_SCALE_NORMALIZATION_FLOOR = 0.001;
+const ORBIT_VERTICAL_SCALE = 0.4;
+const ORBIT_SHAPE_EXPONENT = 0.72;
+const POINTER_SPRING_STIFFNESS = 100;
+const POINTER_SPRING_DAMPING = 18;
+const POINTER_FADE_SPEED = 15;
 const BACKGROUND = "#f4f4f0";
 const CHARACTER_COLOR = "#171717";
 
@@ -27,7 +42,21 @@ type CharacterGrid = {
   cellWidth: number;
   cellHeight: number;
   glyphs: Uint8Array;
+  orbitAngles: Float32Array;
+  orbitBaseAngles: Float32Array;
+  orbitDistances: Float32Array;
+  orbitProgress: Float32Array;
+  orbitProgressVelocities: Float32Array;
+  orbitSpeedProgress: Float32Array;
+  orbitSpeeds: Float32Array;
+  orbitRings: Uint8Array;
 };
+
+const horizontalScaleForX = (x: number): number =>
+  x < 0 ? ORBIT_LEFT_HORIZONTAL_SCALE : ORBIT_RIGHT_HORIZONTAL_SCALE;
+
+const normalizedHorizontalScaleForX = (x: number): number =>
+  Math.max(Math.abs(horizontalScaleForX(x)), ORBIT_SCALE_NORMALIZATION_FLOOR);
 
 /** Renders the supplied portrait as a responsive, animated ASCII character field. */
 export default function AsciiPortrait({ src, name }: AsciiPortraitProps) {
@@ -173,7 +202,75 @@ export default function AsciiPortrait({ src, name }: AsciiPortraitProps) {
           : Math.min(GLYPHS.length - 1, Math.floor(adjustedShade * (GLYPHS.length - 1)));
       }
 
-      grid = { columns, rows, cellWidth, cellHeight, glyphs };
+      const orbitAngles = new Float32Array(glyphs.length);
+      const orbitBaseAngles = new Float32Array(glyphs.length);
+      const orbitDistances = new Float32Array(glyphs.length);
+      const orbitProgress = new Float32Array(glyphs.length);
+      const orbitProgressVelocities = new Float32Array(glyphs.length);
+      const orbitSpeedProgress = new Float32Array(glyphs.length);
+      const orbitSpeeds = new Float32Array(glyphs.length);
+      const orbitRings = new Uint8Array(glyphs.length);
+      let visibleGlyphCount = 0;
+      for (const glyph of glyphs) {
+        if (glyph < GLYPHS.length - 1) visibleGlyphCount += 1;
+      }
+      const greatestCommonDivisor = (left: number, right: number): number =>
+        right === 0 ? left : greatestCommonDivisor(right, left % right);
+      let distanceStep = Math.max(1, Math.floor(visibleGlyphCount * 0.618034));
+      while (visibleGlyphCount > 1 && greatestCommonDivisor(distanceStep, visibleGlyphCount) !== 1) {
+        distanceStep += 1;
+        if (distanceStep >= visibleGlyphCount) distanceStep = 1;
+      }
+      const distanceOffset = Math.floor(visibleGlyphCount * 0.381966);
+      let visibleRank = 0;
+      for (let index = 0; index < glyphs.length; index += 1) {
+        // A deterministic shuffled stratification gives visible glyphs a
+        // balanced spread of stable orbit distances without per-frame randoms.
+        const hash = (index * 16807 + 17) % 2147483647;
+        orbitAngles[index] = 0;
+        orbitRings[index] = hash % ORBIT_COUNT;
+        if (glyphs[index] >= GLYPHS.length - 1 || visibleGlyphCount === 0) continue;
+
+        const stratum = (visibleRank * distanceStep + distanceOffset) % visibleGlyphCount;
+        visibleRank += 1;
+        const distanceFraction = (stratum + 0.5) / visibleGlyphCount;
+        const orbitDistance = MIN_ORBIT_DISTANCE
+          + distanceFraction * (MAX_ORBIT_DISTANCE - MIN_ORBIT_DISTANCE);
+        orbitDistances[index] = orbitDistance;
+
+        const distanceProgress = (orbitDistance - MIN_ORBIT_DISTANCE)
+          / (MAX_ORBIT_DISTANCE - MIN_ORBIT_DISTANCE);
+        const distanceSpeed = MIN_ORBIT_SPEED_RATIO
+          + Math.pow(1 - distanceProgress, 1.35) * (1 - MIN_ORBIT_SPEED_RATIO);
+        const individualVariation = 1 - ORBIT_SPEED_VARIATION / 2
+          + ((hash % 1000) / 1000) * ORBIT_SPEED_VARIATION;
+        const ringVariation = orbitRings[index] === 0 ? 1.02 : 0.98;
+        orbitSpeeds[index] = distanceSpeed * individualVariation * ringVariation;
+      }
+      grid = {
+        columns, rows, cellWidth, cellHeight, glyphs,
+        orbitAngles, orbitBaseAngles, orbitDistances, orbitProgress,
+        orbitProgressVelocities, orbitSpeedProgress, orbitSpeeds, orbitRings,
+      };
+      if (pointerTargetInfluence > 0) initializeOrbit(pointerX, pointerY);
+    };
+
+    const initializeOrbit = (centerX: number, centerY: number) => {
+      if (!grid) return;
+      grid.orbitProgress.fill(0);
+      grid.orbitProgressVelocities.fill(0);
+      grid.orbitSpeedProgress.fill(0);
+      for (let row = 0; row < grid.rows; row += 1) {
+        for (let column = 0; column < grid.columns; column += 1) {
+          const index = row * grid.columns + column;
+          const dx = (column + 0.5) * grid.cellWidth - centerX;
+          const dy = (row + 0.5) * grid.cellHeight - centerY;
+          const nx = dx / normalizedHorizontalScaleForX(dx);
+          const ny = dy / ORBIT_VERTICAL_SCALE;
+          grid.orbitBaseAngles[index] = Math.atan2(ny, nx);
+          grid.orbitAngles[index] = 0;
+        }
+      }
     };
 
     const resize = () => {
@@ -198,12 +295,18 @@ export default function AsciiPortrait({ src, name }: AsciiPortraitProps) {
       lastFrameTime = time;
       elapsed += deltaTime;
       const influenceEase = 1 - Math.exp(-POINTER_FADE_SPEED * deltaTime);
-      pointerVelocityX += ((pointerTargetX - pointerX) * POINTER_SPRING_STIFFNESS
-        - pointerVelocityX * POINTER_SPRING_DAMPING) * deltaTime;
-      pointerVelocityY += ((pointerTargetY - pointerY) * POINTER_SPRING_STIFFNESS
-        - pointerVelocityY * POINTER_SPRING_DAMPING) * deltaTime;
-      pointerX += pointerVelocityX * deltaTime;
-      pointerY += pointerVelocityY * deltaTime;
+      // Substeps keep the damped cursor spring stable during frame hitches and
+      // give it similar motion at different refresh rates.
+      const physicsSteps = Math.max(1, Math.ceil(deltaTime / (1 / 120)));
+      const physicsDelta = physicsSteps > 0 ? deltaTime / physicsSteps : 0;
+      for (let step = 0; step < physicsSteps; step += 1) {
+        pointerVelocityX += ((pointerTargetX - pointerX) * POINTER_SPRING_STIFFNESS
+          - pointerVelocityX * POINTER_SPRING_DAMPING) * physicsDelta;
+        pointerVelocityY += ((pointerTargetY - pointerY) * POINTER_SPRING_STIFFNESS
+          - pointerVelocityY * POINTER_SPRING_DAMPING) * physicsDelta;
+        pointerX += pointerVelocityX * physicsDelta;
+        pointerY += pointerVelocityY * physicsDelta;
+      }
       pointerInfluence += (pointerTargetInfluence - pointerInfluence) * influenceEase;
       if (pointerTargetInfluence === 0 && pointerInfluence < 0.005) pointerInfluence = 0;
 
@@ -219,17 +322,17 @@ export default function AsciiPortrait({ src, name }: AsciiPortraitProps) {
         return;
       }
 
-      const { columns, rows, cellWidth, cellHeight, glyphs } = grid;
+      const {
+        columns, rows, cellWidth, cellHeight, glyphs,
+        orbitAngles, orbitBaseAngles, orbitDistances, orbitProgress,
+        orbitProgressVelocities, orbitSpeedProgress, orbitSpeeds,
+      } = grid;
       context.font = `${cellHeight}px monospace`;
       context.textAlign = "center";
       context.textBaseline = "middle";
       context.fillStyle = CHARACTER_COLOR;
 
-      const isMobile = window.matchMedia("(max-width: 640px)").matches;
-      const repelRadius = isMobile ? MOBILE_REPEL_RADIUS : REPEL_RADIUS;
-      const repelRadiusSq = repelRadius * repelRadius;
-      const outerRadius = repelRadius * 1.35;
-      const outerRadiusSq = outerRadius * outerRadius;
+      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
       for (let row = 0; row < rows; row += 1) {
         const homeY = (row + 0.5) * cellHeight;
@@ -243,35 +346,88 @@ export default function AsciiPortrait({ src, name }: AsciiPortraitProps) {
           const homeX = (column + 0.5) * cellWidth;
           let drawX = homeX;
           let drawY = homeY;
+          let glyphTilt = 0;
+          let glyphPerspective = 1;
 
-          if (pointerInfluence > 0.001) {
+          if (pointerInfluence > 0.001 && !reducedMotion) {
             const dx = homeX - pointerX;
             const dy = homeY - pointerY;
-            const distSq = dx * dx + dy * dy;
 
-            if (distSq < repelRadiusSq) {
-              const dist = Math.sqrt(distSq);
-              const angle = dist > 0.0001 ? Math.atan2(dy, dx) : ((column * 13 + row * 7) % 6.28);
-              const norm = dist / repelRadius; // 0 at cursor, 1 at edge
-              // Push characters outward to maintain distance from the cursor
-              const pushDistance = (repelRadius - dist + (1 - norm) * 4) * pointerInfluence;
-              drawX = homeX + Math.cos(angle) * pushDistance;
-              drawY = homeY + Math.sin(angle) * pushDistance;
-            } else if (distSq < outerRadiusSq) {
-              const dist = Math.sqrt(distSq);
-              const angle = Math.atan2(dy, dx);
-              const outerNorm = (dist - repelRadius) / (outerRadius - repelRadius); // 0 to 1
-              const pushDistance = Math.sin((1 - outerNorm) * Math.PI) * 6 * pointerInfluence;
-              drawX = homeX + Math.cos(angle) * pushDistance;
-              drawY = homeY + Math.sin(angle) * pushDistance;
+            // Measure the cursor field in the same scaled coordinates used by
+            // the custom orbit so its horizontal reach is wider than its height.
+            const normalizedX = dx / normalizedHorizontalScaleForX(dx);
+            const normalizedY = dy / ORBIT_VERTICAL_SCALE;
+
+            const dist = Math.sqrt(
+              normalizedX * normalizedX + normalizedY * normalizedY
+            );
+
+            const orbitDistance = orbitDistances[sampleIndex];
+            const insideOrbit = !reducedMotion && pointerInfluence > 0.001
+              && orbitDistance > 0 && dist < orbitDistance * 0.88;
+            const closeness = orbitDistance > 0
+              ? Math.max(0, 1 - dist / orbitDistance)
+              : 0;
+            const repulsion = ORBIT_REPULSION_STRENGTH * (0.35 + closeness * 1.65);
+            const progressAcceleration = (insideOrbit ? 1 : 0) * repulsion
+              - orbitProgress[sampleIndex] * repulsion
+              - orbitProgressVelocities[sampleIndex] * ORBIT_PROGRESS_DAMPING;
+            orbitProgressVelocities[sampleIndex] += progressAcceleration * deltaTime;
+            orbitProgress[sampleIndex] += orbitProgressVelocities[sampleIndex] * deltaTime;
+            if (orbitProgress[sampleIndex] < 0) {
+              orbitProgress[sampleIndex] = 0;
+              orbitProgressVelocities[sampleIndex] = Math.max(0, orbitProgressVelocities[sampleIndex]);
+            } else if (orbitProgress[sampleIndex] > 1) {
+              orbitProgress[sampleIndex] = 1;
+              orbitProgressVelocities[sampleIndex] = Math.min(0, orbitProgressVelocities[sampleIndex]);
+            }
+
+            if (insideOrbit) {
+              const ramp = 1 - Math.exp(-ORBIT_SPEED_RAMP_UP * deltaTime);
+              orbitSpeedProgress[sampleIndex] += (1 - orbitSpeedProgress[sampleIndex]) * ramp;
+            } else {
+              const ramp = 1 - Math.exp(-ORBIT_SPEED_RAMP_DOWN * deltaTime);
+              orbitSpeedProgress[sampleIndex] += (0 - orbitSpeedProgress[sampleIndex]) * ramp;
+            }
+            orbitAngles[sampleIndex] += ORBIT_SPEED * orbitSpeeds[sampleIndex]
+              * orbitSpeedProgress[sampleIndex] * deltaTime;
+            if (orbitProgress[sampleIndex] > 0.001) {
+              const orbitAngle = orbitBaseAngles[sampleIndex] + orbitAngles[sampleIndex];
+              const sine = Math.sin(orbitAngle);
+              // A nonlinear polar curve creates two broad lobes joined at
+              // narrow, flat-tipped ends. The center stays empty at every phase.
+              const shapedSine = Math.sign(sine)
+                * Math.pow(Math.abs(sine), 1 + ORBIT_SHAPE_EXPONENT);
+              const horizontalScale = horizontalScaleForX(Math.cos(orbitAngle));
+              // Keep glyph size constant and move only in canvas X/Y; this is
+              // a flat 2D orbit with no depth, perspective, or scale change.
+              const orbitX = pointerX
+                + Math.cos(orbitAngle) * orbitDistance * horizontalScale;
+              const orbitY = pointerY
+                + shapedSine * orbitDistance * ORBIT_VERTICAL_SCALE;
+              // Repulsion eases characters outward onto their fixed path;
+              // pointerInfluence blends the full effect back home on leave.
+              const orbitBlend = pointerInfluence * orbitProgress[sampleIndex];
+              drawX = homeX + (orbitX - homeX) * orbitBlend;
+              drawY = homeY + (orbitY - homeY) * orbitBlend;
+              // Fake orbital depth with a small perspective scale and tilt as
+              // glyphs pass the near and far sides of the path.
+              const depth = Math.sin(orbitAngle) * orbitBlend;
+              glyphTilt = depth * ORBIT_3D_TILT;
+              glyphPerspective = 1 + depth * ORBIT_3D_PERSPECTIVE;
             }
           }
 
-          context.fillText(
-            GLYPHS[baseGlyph],
-            drawX,
-            drawY
-          );
+          if (glyphTilt !== 0 || glyphPerspective !== 1) {
+            context.save();
+            context.translate(drawX, drawY);
+            context.rotate(glyphTilt);
+            context.scale(glyphPerspective, glyphPerspective);
+            context.fillText(GLYPHS[baseGlyph], 0, 0);
+            context.restore();
+          } else {
+            context.fillText(GLYPHS[baseGlyph], drawX, drawY);
+          }
         }
       }
 
@@ -318,6 +474,7 @@ export default function AsciiPortrait({ src, name }: AsciiPortraitProps) {
         pointerY = newY;
         pointerVelocityX = 0;
         pointerVelocityY = 0;
+        initializeOrbit(newX, newY);
       }
       pointerTargetX = newX;
       pointerTargetY = newY;

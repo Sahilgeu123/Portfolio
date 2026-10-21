@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://sahilalam.dev/sitemap.xml
+Sitemap: https://portfolio-gamma-pearl-89.vercel.app/sitemap.xml

@@ -124,7 +124,7 @@ export const Home = () => {
             >
               Building
               <br />
-              <span className="italic font-normal font-grotesk">responsive</span>
+              <span className="italic font-normal font-grotesk">intelligent</span>
               <br />
               <span className="relative inline-block">
                 web experiences.

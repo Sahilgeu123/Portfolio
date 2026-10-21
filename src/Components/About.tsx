@@ -83,9 +83,13 @@ export const About = () => {
                   </div>
                 </div>
 
-                <span className="ml-3 flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-neutral-200 transition-transform duration-500 group-hover:rotate-45">
-                  <ArrowUpRight href={portfolioData.profile.socials[1].url} size={17} color="black" />
-                </span>
+                <a className="ml-3 flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-neutral-200 transition-transform duration-500 group-hover:rotate-45"
+                  href="https://www.linkedin.com/in/sahil-alam-456816294/"
+                  aria-label="Visit my LinkedIn profile (opens in a new tab)"
+                  rel="noopener noreferrer"
+                  target="_blank">
+                  <ArrowUpRight size={17} color="black" />
+                </a>
 
               </div>
             </div>
@@ -98,15 +102,24 @@ export const About = () => {
             <ScrollOpacity delay={0.1} startOpacity={0.2} endOpacity={1}>
               <div className="font-display text-2xl mt-20 md:mb-0 leading-snug tracking-tight text-neutral-900 sm:text-3xl lg:text-4xl">
                 <TextReveal>
-                  I build responsive, user-focused interfaces
-                </TextReveal> <TextReveal >
-                  with {" "}
-                  <span className="italic font-grotesk">React.js</span>,{" "}
-                  <span className="italic font-grotesk">Next.js</span>, and modern frontend </TextReveal>
-                <TextReveal >
-                  tools — creating clean, polished </TextReveal>
-                <TextReveal > experiences that feel effortless on every</TextReveal><TextReveal>screen.</TextReveal>
-              </div>
+                  I build software with intelligence
+                </TextReveal>
+
+                <TextReveal>
+                  at its core.
+                </TextReveal>
+
+                <TextReveal>
+                  Combining <span className="italic font-grotesk">full-stack engineering</span>,
+                </TextReveal>
+
+                <TextReveal>
+                  AI, and intelligent agents
+                </TextReveal>
+
+                <TextReveal>
+                  to turn ideas into reality.
+                </TextReveal></div>
             </ScrollOpacity>
 
             <ScrollOpacity delay={0.1} startOpacity={0.2} endOpacity={1}>

@@ -85,7 +85,7 @@ export const Navbar = ({ onOpenPanel }: { onOpenPanel: (panel: "terminal" | "ai"
           </button>
         </div>
         {/*Terminal and AI*/}
-        <div className={`fixed bottom-0 tracking-wider flex gap-10 px-6 py-3 font-grotesk border backdrop-blur-2xl  mb-2 rounded-full ${isScrolled
+        <div className={`fixed bottom-0 tracking-wider flex gap-10 px-6 py-3 font-grotesk border backdrop-blur-2xl  mb-3 rounded-full ${isScrolled
           ? "border-neutral-900/10 bg-white/85 shadow-[0_20px_60px_-20px_rgba(17,17,17,0.2)] backdrop-blur-xl"
           : "border-neutral-900/10 bg-white/70 backdrop-blur-md"
           }`}>

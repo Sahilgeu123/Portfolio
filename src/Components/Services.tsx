@@ -23,7 +23,7 @@ export const Services = () => {
       <ReplayScrambleText
         aria-hidden="true"
         className="text-outline pointer-events-none absolute -top-4 right-0 z-0 select-none font-display text-[16vw] leading-none lg:text-[11vw]"
-      
+
         text="SERVICES"
         duration={600}
       />
@@ -41,11 +41,11 @@ export const Services = () => {
           </div>
           <ScrollOpacity delay={0.1} startOpacity={0.2} endOpacity={1}>
 
-            <CharReveal className="font-display mt-6 text-4xl leading-[0.95] text-neutral-900 sm:text-5xl lg:text-6xl">
+            <CharReveal className="font-display mt-6 text-3xl leading-[0.95] text-neutral-900 sm:text-5xl lg:text-6xl">
               What I can engineer
             </CharReveal>
 
-            <CharReveal className="font-display mt-6 text-4xl leading-[0.95] text-neutral-900/35">for your digital vision
+            <CharReveal className="font-display mt-6 text-3xl leading-[0.95] text-neutral-900/35">for your digital vision
             </CharReveal>
           </ScrollOpacity>
         </div>
