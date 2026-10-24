@@ -51,7 +51,7 @@ export const portfolioData = {
       "I build AI-powered web applications using React, Next.js, TypeScript, and Tailwind CSS, integrating LLMs, APIs, and AI agents to create intelligent, user-friendly experiences.",
 
     detailedBio:
-      "Agentic AI Full Stack Developer focused on building AI-powered web applications using React, Next.js, TypeScript, and Tailwind CSS. Experienced in developing interactive UI components, integrating LLM APIs, and building AI agent workflows for intelligent, user-focused web experiences.",
+      "Focused on building AI-powered web applications using React, Next.js, TypeScript, and Node.js. Skilled in developing responsive UIs, building scalable APIs, managing databases, and integrating AI agents to automate workflows and solve real-world problems.",
 
     location: "Dehradun, India",
     university: "Graphic Era Deemed To Be University",
@@ -107,7 +107,7 @@ export const portfolioData = {
       summary:
         "Developed a full-stack e-commerce platform with product browsing, authentication, cart management, and responsive UI.",
       description:
-        "Developed a full-stack e-commerce platform with product browsing, authentication, cart management, and responsive UI. Built and integrated REST APIs for products, users, and cart operations with MongoDB. Designed responsive and reusable interfaces using React.js and Tailwind CSS.",
+        "Built and integrated REST APIs for products, users, and cart operations with MongoDB. Designed responsive and reusable interfaces using React.js and Tailwind CSS.",
       tags: [
         "React.js",
         "Node.js",
@@ -119,7 +119,7 @@ export const portfolioData = {
       liveUrl: "https://libas-ecommerce-website-nine.vercel.app/",
       githubUrl: "https://github.com/Sahilgeu123",
       image:
-        "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&q=80",
+        "/libas.png",
       featured: true,
     },
     {
@@ -130,7 +130,7 @@ export const portfolioData = {
       summary:
         "Built an interactive Apple-inspired product website using React.js, Three.js, and React Three Fiber.",
       description:
-        "Built an interactive Apple-inspired product website using React.js, Three.js, and React Three Fiber. Implemented GSAP animations and scroll-based interactions to create an immersive 3D experience. Optimized responsive layouts and interactive elements for different screen sizes.",
+        "Implemented GSAP animations and scroll-based interactions to create an immersive 3D experience. Optimized responsive layouts and interactive elements for different screen sizes.",
       tags: [
         "React.js",
         "Three.js",
@@ -142,7 +142,7 @@ export const portfolioData = {
       liveUrl: "https://apple-clone-website-kappa.vercel.app/",
       githubUrl: "https://github.com/Sahilgeu123",
       image:
-        "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=1200&q=80",
+        "/apple.png",
       featured: true,
     },
     {
@@ -153,7 +153,7 @@ export const portfolioData = {
       summary:
         "Developed a responsive landing page using HTML5, CSS3, and JavaScript.",
       description:
-        "Developed a responsive landing page using HTML5, CSS3, and JavaScript. Built structured sections for hero content, clinic information, and consultation scheduling. Implemented a clean, modern, and user-focused UI optimized for desktop, tablet, and mobile devices.",
+        "Built structured sections for hero content, clinic information, and consultation scheduling. Implemented a clean, modern, and user-focused UI optimized for desktop, tablet, and mobile devices.",
       tags: [
         "HTML5",
         "CSS3",
@@ -165,7 +165,7 @@ export const portfolioData = {
       liveUrl: "https://eye-life-clinic-landing-page.vercel.app/",
       githubUrl: "https://github.com/Sahilgeu123",
       image:
-        "https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=1200&q=80",
+        "/eyeClinic.png",
       featured: true,
     },
   ] as ProjectItem[],

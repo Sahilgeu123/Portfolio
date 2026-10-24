@@ -60,9 +60,13 @@ export default function ProjectOrbitGrid({ projects, className = "" }: ProjectOr
 
             if (timeline.progress() <= orbitDuration) {
               gsap.set(card, {
-                scale: 0.62 + ((depth + 1) / 2) * 0.76,
+                scale: 0.35 + ((depth + 1) / 2) * 1.03,
                 zIndex: Math.round((depth + 1) * 10),
-                filter: `blur(${((1 - depth) * 1.75).toFixed(2)}px)`,
+
+                // Increase blur toward the back
+                filter: `blur(${((1 - depth) * 2.5).toFixed(2)}px)`,
+
+                // Decrease opacity toward the back
                 opacity: 0.68 + ((depth + 1) / 2) * 0.32,
               });
             }
@@ -96,7 +100,7 @@ export default function ProjectOrbitGrid({ projects, className = "" }: ProjectOr
 
         const ringRect = ring.getBoundingClientRect();
         const centerX = ringRect.width / 2;
-        const centerY = ringRect.height / 2;
+        const centerY = ringRect.height / 2 - 40;
         const radiusX = Math.min(ringRect.width * 0.34, 340);
         const radiusY = Math.min(ringRect.height * 0.34, 230);
 
@@ -198,7 +202,7 @@ export default function ProjectOrbitGrid({ projects, className = "" }: ProjectOr
                 {activeProject.summary}
               </p>
 
-              <p className="project-orbit-description font-grotesk max-h-48 overflow-y-auto pr-3">
+              <p className="project-orbit-description max-h-48 overflow-y-auto pr-3">
                 {activeProject.description}
               </p>
               <div className="project-orbit-tags">

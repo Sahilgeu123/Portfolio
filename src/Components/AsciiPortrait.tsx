@@ -8,7 +8,7 @@ type AsciiPortraitProps = {
 const GLYPHS = "@%#*+=-:. ";
 
 const CHARACTER_DENSITY = 1.25;
-const MOBILE_CHARACTER_DENSITY = 3.8;
+const MOBILE_CHARACTER_DENSITY = 1.8;
 
 const MAX_COLUMNS = 130;
 const MOBILE_MAX_COLUMNS = 90;
