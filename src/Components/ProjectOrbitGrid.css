@@ -244,25 +244,6 @@
 }
 
 @media (max-width: 1024px) {
-  .project-orbit-layout {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .project-orbit-details {
-    display: none;
-  }
-
-  .project-orbit-stage {
-    width: 100%;
-    margin-inline: auto;
-  }
-
-  .project-orbit-ring {
-    margin-inline: auto;
-  }
-}
-
-@media (max-width: 640px) {
   .project-orbit-stage,
   .project-orbit-layout {
     min-height: auto;
@@ -270,48 +251,52 @@
 
   .project-orbit-layout {
     grid-template-columns: minmax(0, 1fr);
-    gap: 1.25rem;
+    gap: 1.5rem;
   }
 
   .project-orbit-ring {
-    height: min(62vh, 500px);
+    width: 100%;
+    height: auto;
+    margin-inline: auto;
   }
 
   .project-orbit-grid {
-    gap: 0.75rem;
+    height: auto;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-content: start;
+    gap: clamp(1rem, 2.5vw, 1.5rem);
   }
 
   .project-orbit-card {
+    width: 100%;
+    height: auto;
     border-radius: 1rem;
-    width: 310px;
-    height: 150px;
+    transform: none !important;
+    filter: none !important;
+    opacity: 1 !important;
   }
 
-  .project-orbit-details {
-    display: none;
-  }
-
-  .project-orbit-navigation {
-    display: none;
+  .project-orbit-image {
+    aspect-ratio: 16 / 10;
   }
 
   .project-orbit-mobile-copy {
     display: block;
-    padding: 1rem;
+    padding: clamp(1rem, 2vw, 1.4rem);
     background: #fff;
   }
 
   .project-orbit-mobile-copy h3 {
     margin: 0.5rem 0 0;
     color: #111;
-    font: 700 clamp(1rem, 4vw, 1.3rem)/1.16 var(--font-display);
+    font: 700 clamp(1rem, 2vw, 1.3rem)/1.16 var(--font-display);
     letter-spacing: -0.035em;
     overflow-wrap: anywhere;
   }
 
   .project-orbit-mobile-copy p {
     color: #5e5b56;
-    font: 400 0.78rem/1.55 var(--font-body);
+    font: 400 0.84rem/1.55 var(--font-body);
   }
 
   .project-orbit-mobile-copy .project-orbit-summary {
@@ -320,12 +305,7 @@
   }
 
   .project-orbit-mobile-copy .project-orbit-description {
-    display: -webkit-box;
-    overflow: hidden;
     margin-top: 0.4rem;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 3;
-    line-clamp: 3;
   }
 
   .project-orbit-mobile-copy .project-orbit-tags {
@@ -348,18 +328,24 @@
     font-size: 0.64rem;
   }
 
+  .project-orbit-details {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .project-orbit-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
   .project-orbit-detail-index {
     margin-bottom: 1.2rem;
   }
 }
 
-@media (max-width: 420px) {
-  .project-orbit-grid {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .project-orbit-image {
-    aspect-ratio: 1.1 / 1;
+@media (min-width: 1024px){
+  .project-orbit-card{
+    
   }
 }
 
